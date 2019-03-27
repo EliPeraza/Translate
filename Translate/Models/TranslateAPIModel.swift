@@ -8,3 +8,7 @@
 
 import Foundation
 //api
+struct TranslateAPIModel: Codable {
+    let lang: String
+    let text: [String]
+}
