@@ -11,7 +11,7 @@ import FirebaseAuth
 
 protocol AuthServiceCreateNewAccountDelegate: AnyObject {
   func didRecieveErrorCreatingAccount(_ authservice: AuthService, error: Error)
-  func didCreateNewAccount(_ authservice: AuthService, reviewer: NDUser)
+  func didCreateNewAccount(_ authservice: AuthService, reviewer: TRUser)
 }
 
 protocol AuthServiceExistingAccountDelegate: AnyObject {
@@ -47,7 +47,7 @@ final class AuthService {
         })
         
         // create user (reviewer) on firestore database
-        let user = NDUser.init(userId: authDataResult.user.uid,
+        let user = TRUser.init(userId: authDataResult.user.uid,
                                displayName: username,
                                email: authDataResult.user.email!,
                                photoURL: nil,

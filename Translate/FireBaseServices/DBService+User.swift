@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct NDUsersCollectionKeys {
+struct TRUserCollectionKeys {
   static let CollectionKey = "users"
   static let UserIdKey = "userId"
   static let DisplayNameKey = "displayName"
@@ -19,14 +19,14 @@ struct NDUsersCollectionKeys {
 }
 
 extension DBService {
-  static public func createNDUser(user: NDUser, completion: @escaping (Error?) -> Void) {
-    firestoreDB.collection(NDUsersCollectionKeys.CollectionKey)
+  static public func createNDUser(user: TRUser, completion: @escaping (Error?) -> Void) {
+    firestoreDB.collection(TRUserCollectionKeys.CollectionKey)
       .document(user.userId)
-      .setData([ DishesCollectionKeys.UserIdKey : user.userId,
-                 NDUsersCollectionKeys.DisplayNameKey : user.displayName,
-                 NDUsersCollectionKeys.EmailKey       : user.email,
-                 NDUsersCollectionKeys.PhotoURLKey    : user.photoURL ?? "",
-                 NDUsersCollectionKeys.JoinedDateKey  : user.joinedDate
+      .setData([ TRUserCollectionKeys.UserIdKey : user.userId,
+                 TRUserCollectionKeys.DisplayNameKey : user.displayName,
+                 TRUserCollectionKeys.EmailKey       : user.email,
+                 TRUserCollectionKeys.PhotoURLKey    : user.photoURL ?? "",
+                 TRUserCollectionKeys.JoinedDateKey  : user.joinedDate
       ]) { (error) in
         if let error = error {
           completion(error)
@@ -36,15 +36,15 @@ extension DBService {
     }
   }
   
-  static public func fetchUser(userId: String, completion: @escaping (Error?, NDUser?) -> Void) {
+  static public func fetchUser(userId: String, completion: @escaping (Error?, TRUser?) -> Void) {
     DBService.firestoreDB
-      .collection(NDUsersCollectionKeys.CollectionKey)
-      .whereField(NDUsersCollectionKeys.UserIdKey, isEqualTo: userId)
+      .collection(TRUserCollectionKeys.CollectionKey)
+      .whereField(TRUserCollectionKeys.UserIdKey, isEqualTo: userId)
       .getDocuments { (snapshot, error) in
         if let error = error {
           completion(error, nil)
         } else if let snapshot = snapshot?.documents.first {
-          let dishCreator = NDUser(dict: snapshot.data())
+          let dishCreator = TRUser(dict: snapshot.data())
           completion(nil, dishCreator)
         }
     }
