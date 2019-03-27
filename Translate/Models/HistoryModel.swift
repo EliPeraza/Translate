@@ -12,15 +12,14 @@ struct History {
    
     let documentId: String
     let createdDate: String
-  //  let imageURL: String
     let userId: String
     
-    // mostly used for posting for firebase
+    
+    
     init(documentId: String, createdDate: String, userId: String) {
         
         self.documentId = documentId
         self.createdDate = createdDate
-      //  self.imageURL = imageURL
         self.userId = userId
     }
     
