@@ -29,7 +29,7 @@ final class AuthService {
   weak var authserviceExistingAccountDelegate: AuthServiceExistingAccountDelegate?
   weak var authserviceSignOutDelegate: AuthServiceSignOutDelegate?
   
-  public func createNewAccount(username: String, email: String, password: String) {
+  public func createNewAccount(email: String, password: String) {
     Auth.auth().createUser(withEmail: email, password: password) { (authDataResult, error) in
       if let error = error {
         self.authserviceCreateNewAccountDelegate?.didRecieveErrorCreatingAccount(self, error: error)
@@ -38,7 +38,6 @@ final class AuthService {
         
         // update displayName for auth user
         let request = authDataResult.user.createProfileChangeRequest()
-        request.displayName = username
         request.commitChanges(completion: { (error) in
           if let error = error {
             self.authserviceCreateNewAccountDelegate?.didRecieveErrorCreatingAccount(self, error: error)
@@ -48,7 +47,6 @@ final class AuthService {
         
         // create user (reviewer) on firestore database
         let user = TRUser.init(userId: authDataResult.user.uid,
-                               displayName: username,
                                email: authDataResult.user.email!,
                                photoURL: nil,
                                joinedDate: Date.getISOTimestamp())

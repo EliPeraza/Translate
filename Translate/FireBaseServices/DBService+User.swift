@@ -12,7 +12,6 @@ import Foundation
 struct TRUserCollectionKeys {
   static let CollectionKey = "users"
   static let UserIdKey = "userId"
-  static let DisplayNameKey = "displayName"
   static let EmailKey = "email"
   static let PhotoURLKey = "photoURL"
   static let JoinedDateKey = "joinedDate"
@@ -23,7 +22,6 @@ extension DBService {
     firestoreDB.collection(TRUserCollectionKeys.CollectionKey)
       .document(user.userId)
       .setData([ TRUserCollectionKeys.UserIdKey : user.userId,
-                 TRUserCollectionKeys.DisplayNameKey : user.displayName,
                  TRUserCollectionKeys.EmailKey       : user.email,
                  TRUserCollectionKeys.PhotoURLKey    : user.photoURL ?? "",
                  TRUserCollectionKeys.JoinedDateKey  : user.joinedDate
