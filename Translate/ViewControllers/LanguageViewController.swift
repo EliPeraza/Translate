@@ -9,7 +9,13 @@
 import UIKit
 
 class LanguageViewController: UIViewController {
-
+// this is the detailVC
+    
+    var languages = [String](){
+        didSet{
+            selectLanguageTableView.reloadData()
+        }
+    }
 
   @IBOutlet weak var selectLanguageTableView: UITableView!
   
@@ -24,4 +30,16 @@ class LanguageViewController: UIViewController {
   @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
   }
   
+}
+
+extension LanguageViewController: UITableViewDataSource, UITableViewDelegate{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        <#code#>
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+    
+    
 }
