@@ -51,7 +51,9 @@ class LogInController: UIViewController {
     authService.authserviceCreateNewAccountDelegate = self
     authService.authserviceExistingAccountDelegate = self
     authService.authserviceSignOutDelegate = self
-    updateProfileUI()
+    if authService.getCurrentUser() == nil{
+        userIsSignedOut()
+    }
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -62,13 +64,7 @@ class LogInController: UIViewController {
   func disableButtonsIfLoggedIn() {
     guard let user = authService.getCurrentUser() else {return}
     if user.email == emailTextField.text {
-      emailTextField.isEnabled = false
-      passwordTextfield.isEnabled = false
-        passwordTextfield.isHidden = true
-      logInButton.isEnabled = false
-        logInButton.isHidden = true
-      userStatus.isEnabled = false
-        userStatus.isHidden = true
+updateProfileUI()
     }
   }
   
@@ -96,14 +92,7 @@ class LogInController: UIViewController {
      print("no logged in user")
       return
     }
-        self.emailTextField.text = user.email
-        self.emailTextField.isEnabled = false
-        self.passwordTextfield.isEnabled = false
-        self.passwordTextfield.isHidden = true
-        self.logInButton.isEnabled = false
-        self.logInButton.isHidden = true
-        self.userStatus.isEnabled = false
-        self.userStatus.isHidden = true
+        userIsSignedIn()
     if let photoURL = user.photoURL{
         self.userProfileButtonPicture.kf.setImage(with: URL(string: photoURL.absoluteString), for: .normal)
 
@@ -121,8 +110,10 @@ class LogInController: UIViewController {
     switch accountLoginState {
     case .newAccount:
       authService.createNewAccount(email: email, password: passWord)
+        updateProfileUI()
     case .existingAccount:
       authService.signInExistingAccount(email: email, password: passWord)
+      updateProfileUI()
       disableButtonsIfLoggedIn()
 
     }
@@ -202,12 +193,15 @@ extension LogInController: AuthServiceCreateNewAccountDelegate{
   
   func didCreateNewAccount(_ authservice: AuthService, reviewer: TRUser) {
     showAlert(title: "Created account!", message: "An account was created using \(emailTextField.text ?? "no email entered")")
+    userIsSignedIn()
+
   }
 }
 
 extension LogInController: AuthServiceExistingAccountDelegate {
   func didSignInToExistingAccount(_ authservice: AuthService, user: User) {
     showAlert(title: "Welcome!", message: "You are logged in")
+    userIsSignedIn()
   }
   
   
@@ -263,16 +257,43 @@ extension LogInController: AuthServiceSignOutDelegate{
     }
     
     func didSignOut(_ authservice: AuthService) {
-        self.emailTextField.text = ""
-        self.emailTextField.isEnabled = true
-        self.passwordTextfield.isEnabled = true
-        self.passwordTextfield.isHidden = false
-        self.logInButton.isEnabled = true
-        self.logInButton.isHidden = false
-        self.userStatus.isEnabled = true
-        self.userStatus.isHidden = false
-        self.userProfileButtonPicture.setImage(UIImage.init(named: "placeholder"), for: .normal)
+        userIsSignedOut()
     }
     
+    
+}
+
+
+extension LogInController{
+    func userIsSignedOut(){
+    self.emailTextField.text = ""
+    self.emailTextField.isEnabled = true
+    self.passwordTextfield.text = ""
+    self.passwordTextfield.isEnabled = true
+    self.passwordTextfield.isHidden = false
+    self.logInButton.isEnabled = true
+    self.logInButton.isHidden = false
+    self.userStatus.isEnabled = true
+    self.userStatus.isHidden = false
+    self.userProfileButtonPicture.setImage(UIImage.init(named: "placeholder"), for: .normal)
+    self.signOutButton.isEnabled = false
+    self.signOutButton.isHidden = true
+    self.saveImageButton.isEnabled = false
+    self.saveImageButton.isHidden = true
+    }
+    func userIsSignedIn(){
+        self.emailTextField.text = authService.getCurrentUser()?.email!
+        self.emailTextField.isEnabled = false
+        self.passwordTextfield.isEnabled = false
+        self.passwordTextfield.isHidden = true
+        self.logInButton.isEnabled = false
+        self.logInButton.isHidden = true
+        self.userStatus.isEnabled = false
+        self.userStatus.isHidden = true
+        self.signOutButton.isEnabled = true
+        self.signOutButton.isHidden = false
+        self.saveImageButton.isEnabled = true
+        self.saveImageButton.isHidden = false
+    }
     
 }

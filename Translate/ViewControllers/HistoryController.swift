@@ -42,8 +42,27 @@ class HistoryController: UIViewController {
         super.viewDidLoad()
         historyTableView.dataSource = self
         historyTableView.delegate = self
-        title = "Histories"
+        title = "History"
+        if authservice.getCurrentUser() != nil{
+
          fetchHistories()
+        }else{
+            history.removeAll()
+            self.historyTableView.reloadData()
+            showAlert(title: "Error", message: "Please login to view history")
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        historyTableView.dataSource = self
+        historyTableView.delegate = self
+        if authservice.getCurrentUser() != nil{
+            fetchHistories()
+        }else{
+            history.removeAll()
+            self.historyTableView.reloadData()
+            showAlert(title: "Error", message: "Please login to view history")
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -75,9 +94,8 @@ class HistoryController: UIViewController {
         }
         if let loginUser = loginUser {
             currentUser = loginUser.userId
-        } else {
-            currentUser = user.uid
-        }
+        } else if authservice.getCurrentUser() != nil{
+            currentUser = authservice.getCurrentUser()?.uid
         _ = DBService.firestoreDB
             .collection(HistoryCollectionKeys.CollectionKey)
             .document()
@@ -95,6 +113,7 @@ class HistoryController: UIViewController {
                     self?.refreshControl.endRefreshing()
                 }
         }
+    }
     }
     
 

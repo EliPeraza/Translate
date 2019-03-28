@@ -75,6 +75,7 @@ class MainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    title = "Translate"
     configureTextView()
             self.flagLanguageEntered.image = UIImage.init(named: (self.language.allKeysForValue(val: self.baseLanguage)?.first)!)
             self.flagLanguageTranslatedTo.image = UIImage.init(named: (self.language.allKeysForValue(val: self.translateLanguage)?.first)!)
