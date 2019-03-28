@@ -440,13 +440,13 @@
                                     <action selector="switchAccountButtonPressed:" destination="EJy-de-gVE" eventType="touchUpInside" id="sGa-yu-wym"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LzH-Xm-eQk" customClass="CircularButton" customModule="Translate" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LzH-Xm-eQk" customClass="CircularButton" customModule="Translate" customModuleProvider="target">
                                 <rect key="frame" x="134" y="174" width="107" height="107"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="107" id="50W-Kg-BwF"/>
                                     <constraint firstAttribute="width" constant="107" id="umZ-N6-EoU"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" image="placeholder"/>
                                 <connections>
                                     <action selector="imageButtonPressed:" destination="EJy-de-gVE" eventType="touchUpInside" id="60a-zl-4Pl"/>
                                 </connections>
@@ -765,6 +765,7 @@
         <image name="history" width="32" height="32"/>
         <image name="image_placeholder_png_698104" width="20" height="20"/>
         <image name="language" width="32" height="32"/>
+        <image name="placeholder" width="512" height="512"/>
         <image name="profile" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>

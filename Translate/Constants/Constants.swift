@@ -9,5 +9,6 @@
 import UIKit
 
 struct Constants {
+  static let ProfileImagePath = "profileImages/" // profileImages/{userId}
 
 }
