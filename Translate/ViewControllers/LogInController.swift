@@ -125,6 +125,26 @@ class LogInController: UIViewController {
     alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
     self.present(alertController, animated: true)
     
+    guard let user = authService.getCurrentUser() else {
+     "no logged in user"
+    return
+    }
+    guard let imageData = selectedImage?.jpegData(compressionQuality: 1.0) else {
+      return
+    }
+    StorageService.postImage(imageData: imageData, imageName: Constants.ProfileImagePath + user.uid) { (error, imageurl) in
+      if let error = error {
+        self.showAlert(title: "Error saving photo", message: error.localizedDescription)
+      } else if let imageURL = imageurl {
+       let request = user.createProfileChangeRequest()
+        request.photoURL = imageURL
+        request.commitChanges(completion: { (error) in
+          if let error = error {
+            self.showAlert(title: "Error saving account info", message: error.localizedDescription)
+          }
+        })
+      }
+    }
     
   }
   
