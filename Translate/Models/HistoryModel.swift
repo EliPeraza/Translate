@@ -32,7 +32,6 @@ struct History {
     
     // used to read a snapshot from firebase - snapshot.data() is a dictionary
     init(dict: [String: Any]) {
-
         self.documentId = dict[HistoryCollectionKeys.DocumentIdKey] as? String ?? ""
         self.createdDate = dict[HistoryCollectionKeys.CreatedDateKey] as? String ?? ""
         self.userId = dict[HistoryCollectionKeys.UserIdKey] as? String ?? ""

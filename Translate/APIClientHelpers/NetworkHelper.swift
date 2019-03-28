@@ -15,7 +15,9 @@ final class NetworkHelper {
                          httpMethod: String,
                          httpBody: Data?,
                          handler: @escaping (AppError?, Data?) -> Void) {
-        guard let url = URL(string: endpointURLString) else {
+        let fixingURL = endpointURLString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        guard let unwrappedUrl = fixingURL,
+        let url = URL(string: unwrappedUrl) else {
             handler(AppError.badURL(endpointURLString), nil)
             return
         }

@@ -9,10 +9,24 @@
 import UIKit
 import Kingfisher
 
+enum languageForButton{
+    case baseLanguage
+    case translatedLanguage
+}
+
+
 class MainViewController: UIViewController {
     
     var autoDetectModeling: AutoDetect!
-    var transferedText: TranslateAPIModel!
+    var transferedText: TranslateAPIModel!{
+        didSet{
+            DispatchQueue.main.async {
+                self.translatedTextLabel.text = self.transferedText.text.first ?? "No text was found"
+            }
+        }
+    }
+    
+    var caseOfButton = languageForButton.baseLanguage
     
     var language = ["en": "English", "zh": "Chinese", "es": "Spanish", "hi": "Hindi", "de": "German", "ur": "Urdu",
         "bn": "Bengali", "ru": "Russian", "ja": "Japanese", "fr": "French"]
@@ -22,21 +36,24 @@ class MainViewController: UIViewController {
   @IBOutlet weak var flagLanguageTranslatedTo: UIImageView!
   
     
-    var baseLanguage = ""{
+    var baseLanguage = "Spanish"{
         didSet{
 //            flagLanguageEntered.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
-            baseLanguageButton.setTitle(baseLanguage, for: .normal)
+            DispatchQueue.main.async {
+                self.baseLanguageButton.setTitle(self.baseLanguage, for: .normal)
+            }
         }
     }
     
-    var translateLanguage = ""{
+    var translateLanguage = "English"{
         didSet{
 //        flagLanguageTranslatedTo.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
-            translationLanguageButton.setTitle(translateLanguage, for: .normal)
+            DispatchQueue.main.async{
+                self.translationLanguageButton.setTitle(self.translateLanguage, for: .normal)
+            }
         }
     }
-    var autoDetectedLanguage = ""
-    
+    var autoDetectedLanguage = "en"
     
     @IBOutlet weak var baseLanguageButton: UIButton!
     
@@ -63,7 +80,21 @@ class MainViewController: UIViewController {
   
   
   @IBAction func translateButtonPressed(_ sender: UIButton) {
-    
+    if let textToTranslate = textEnteredByUserToTranslate.text,
+        let base = language.allKeysForValue(val: baseLanguage),
+        let trans = language.allKeysForValue(val: translateLanguage){
+        if !textToTranslate.isEmpty{
+            TranslateAPIClient.searchTranslate(keyword: textToTranslate, language: "\(base.first!)-\(trans.first!)") { (error, model) in
+                if let error = error{
+                    self.showAlert(title: "error", message: error.errorMessage())
+                }else if let model = model{
+                    self.transferedText = model
+                }
+            }
+        }else{
+            self.showAlert(title: "Problem", message: "No text entered to translate")
+        }
+    }
     
   }
   @IBAction func autoDetect(_ sender: UIButton) {
@@ -76,9 +107,13 @@ class MainViewController: UIViewController {
                     self.showAlert(title: "error", message: error.localizedDescription)
                     
                 }else if let auto = auto{
-//                    if let languageFound = auto.lang{
-//                        self.baseLanguage = selfgi.language[auto.lang]
-//                    }
+                    if let lang = self.language[auto.lang]{
+                        DispatchQueue.main.async {
+                            self.baseLanguage = lang
+                        }
+                    }
+                }else{
+                    self.showAlert(title: "Language not supported", message: nil)
                 }
                 
             }
@@ -87,14 +122,14 @@ class MainViewController: UIViewController {
   }
   
   @IBAction func unwindSeque(_ segue: UIStoryboardSegue){
-    if segue.identifier == "languageToTranslateTo"{
-        if let otherName = language[""]{
-            baseLanguage = otherName
-        }
-    } else if segue.identifier == "baseLanguage"{
-    if let fullNameOfLanguage = language["en"]{
-        translateLanguage = fullNameOfLanguage
-    }
+    let languageVC = segue.source as! LanguageViewController
+    switch caseOfButton {
+    case .baseLanguage:
+        self.baseLanguage = languageVC.languagedSelected
+        baseLanguageButton.setTitle(languageVC.languagedSelected, for: .normal)
+    case .translatedLanguage:
+        self.translateLanguage = languageVC.languagedSelected
+        translationLanguageButton.setTitle(languageVC.languagedSelected, for: .normal)
     }
   }
 }
@@ -102,11 +137,34 @@ class MainViewController: UIViewController {
 extension MainViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "languageToTranslateTo"{
-            for key in language{
-                
+            caseOfButton = languageForButton.baseLanguage
+            var languagedToTransfer = [String]()
+           guard let languageDVC = segue.destination as? LanguageViewController else {
+                fatalError("cannot segue to DVC")
             }
+            for (_,value) in language{
+                languagedToTransfer.append(value)
+            }
+            languageDVC.languages = languagedToTransfer
+            languagedToTransfer.removeAll()
         } else if segue.identifier == "baseLanguage"{
-            
+            caseOfButton = languageForButton.translatedLanguage
+            var languagedToTransfer = [String]()
+            guard let languageDVC = segue.destination as? LanguageViewController else {
+                fatalError("cannot segue to DVC")
+            }
+            for (_,value) in language{
+                languagedToTransfer.append(value)
+            }
+            languageDVC.languages = languagedToTransfer
+            languagedToTransfer.removeAll()
         }
+    }
+}
+
+
+extension Dictionary where Value : Equatable {
+    func allKeysForValue(val : Value) -> [Key]? {
+        return self.filter { $1 == val }.map { $0.0 }
     }
 }
