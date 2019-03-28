@@ -11,6 +11,7 @@ import UIKit
 class FavoriteController: UIViewController {
   
   @IBOutlet weak var favoriteTableView: UITableView!
+    
   
     private var myFavorites = [FavoritesModel]() {
         didSet {
@@ -23,10 +24,12 @@ class FavoriteController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         favoriteTableView.dataSource = self
+        favoriteTableView.delegate = self
             getFavs()
     }
     
-    override func viewWillAppear(_ animated: Bool) { // when i was faving it was not showing in my 
+    // when i was faving it was not showing in my favs controller 
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         getFavs()
     }
@@ -37,7 +40,7 @@ class FavoriteController: UIViewController {
     
 }
 
-extension FavoriteController: UITableViewDataSource {
+extension FavoriteController: UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return myFavorites.count
     }
@@ -53,5 +56,13 @@ extension FavoriteController: UITableViewDataSource {
         return cell
     }
     
-    
+}
+extension FavoriteController{
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let indexpath = favoriteTableView.indexPathForSelectedRow,
+            let DVC = segue.destination as? DetailedController else {
+            fatalError("cannot segue to blogDVC")
+        }
+        DVC.favoriteDetail = myFavorites[indexpath.row]
+    }
 }
