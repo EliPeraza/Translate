@@ -46,6 +46,7 @@ class HistoryController: UIViewController {
          fetchHistories()
     }
     
+   
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let indexPath = historyTableView.indexPathForSelectedRow,
             let transDVC = segue.destination as? DetailedController else {
@@ -68,6 +69,7 @@ class HistoryController: UIViewController {
                 alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
 //                    let loginVC = LogInController()
 //                    self.navigationController?.pushViewController(loginVC, animated: true)
+            
                 })
                 self.present(alert, animated: true, completion: {
                 })
