@@ -52,6 +52,7 @@ class HistoryController: UIViewController {
                 fatalError("cannot segue to transDVC")
         }
         let historiesDVC = history[indexPath.row]
+        
         transDVC.inputText = historiesDVC.inputText
         transDVC.transText = historiesDVC.transedText
         transDVC.inputTitleLanguage = historiesDVC.inputLanguageText
