@@ -9,10 +9,3 @@
 import Foundation
 //data persistence 
 
-struct Favorite {
-    let inputLanguageText: String
-    let inputText: String
-    let transLanguagetext: String
-    let transedText: String
-
-}

@@ -55,6 +55,7 @@ extension DBService {
                 }
         }
     }
+ 
     
     static public var generateDocumentId: String {
         return firestoreDB.collection(HistoryCollectionKeys.CollectionKey).document().documentID

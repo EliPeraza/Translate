@@ -90,8 +90,13 @@ extension HistoryController: UITableViewDataSource, UITableViewDelegate {
        let histories = history[indexPath.row]
         cell.textEnteredLabel.text = histories.inputText
         cell.textTranslatedLabel.text = histories.transedText
+        cell.favoriteButton.addTarget(self, action: #selector(addFavorite), for: .touchUpInside)
     
+        
         return cell
+    }
+    @objc func addFavorite() {
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
