@@ -40,7 +40,7 @@ public class Toucan : NSObject {
     #if swift(>=4.2)
     internal typealias ImageOrientation = UIImage.Orientation
     #else
-    internal typealias ImageOrientation = UIImageOrientation
+    internal typealias ImageOrientation = UIImage.Orientation
     #endif
     
     public var image : UIImage?

@@ -11,4 +11,4 @@ import UIKit
 struct Constants {
     static let TranslateTextPlaceholder = "Please Enter the Word You Want to Translate...."
     static let HistoryTextPath = "translateHistoryText/"
-}
+  static let ProfileImagePath = "profileImages/" // profileImages/{userId}

@@ -10,64 +10,52 @@ import Foundation
 import FirebaseStorage
 import FirebaseAuth
 
-protocol StorageManagerDelegate: AnyObject {
-  func didFetchImage(_ storageManager: StorageManager, imageURL: URL)
-}
+import Foundation
+import FirebaseStorage
 
 struct StorageKeys {
   static let ImagesKey = "images"
 }
 
-final class StorageManager {
-  weak var delegate: StorageManagerDelegate?
-  
-  // reference to the firebsase storage app
-  private let storageRef: StorageReference = {
-    let storage = Storage.storage()
-    return storage.reference()
+final class StorageService {
+  static var storageRef: StorageReference = {
+    let ref = Storage.storage().reference()
+    return ref
   }()
   
-  public func postImage(withData data: Data) {
-    guard let user = Auth.auth().currentUser else {
-      print("no logged user")
-      return
-    }
-    let imagesRef = storageRef.child(StorageKeys.ImagesKey)
-    let newImageRef = imagesRef.child("\(user.uid).jpg")
+  static public func postImage(imageData: Data, imageName: String, completion: @escaping (Error?, URL?) -> Void) {
     let metadata = StorageMetadata()
-    metadata.contentType = "image/jpeg"
-    let uploadTask = newImageRef.putData(data, metadata: metadata) { (metadata, error) in
-      guard let metadata = metadata else {
-        print("error uploading data")
-        return
-      }
-      let _ = metadata.size // other properties, content-type
-      newImageRef.downloadURL(completion: { (url, error) in
+    let imageRef = storageRef.child(StorageKeys.ImagesKey + "/\(imageName)")
+    metadata.contentType = "image/jpg"
+    let uploadTask = imageRef
+      .putData(imageData, metadata: metadata) { (metadata, error) in
         if let error = error {
-          print("downloadURL error: \(error)")
+          print("upload task error: \(error)")
+        } else if let _ = metadata {
+          
+        }
+    }
+    uploadTask.observe(.failure) { (snapshot) in
+      //
+    }
+    uploadTask.observe(.pause) { (snapshot) in
+      //
+    }
+    uploadTask.observe(.progress) { (snapshot) in
+      //
+    }
+    uploadTask.observe(.resume) { (snapshot) in
+      //
+    }
+    uploadTask.observe(.success) { (snapshot) in
+      //
+      imageRef.downloadURL(completion: { (url, error) in
+        if let error = error {
+          completion(error, nil)
         } else if let url = url {
-          // can be attached to a document in the a firestore collection as needed
-          print("downloadURL: \(url)")
-          self.delegate?.didFetchImage(self, imageURL: url)
+          completion(nil, url)
         }
       })
     }
-    // observe states on uploadTask
-    uploadTask.observe(.failure) { (storageTaskSnapshot) in
-      print("failure...")
-    }
-    uploadTask.observe(.pause) { (storageTaskSnapshot) in
-      print("pause...")
-    }
-    uploadTask.observe(.progress) { (storageTaskSnapshot) in
-      print("progress...")
-    }
-    uploadTask.observe(.resume) { (storageTaskSnapshot) in
-      print("resume...")
-    }
-    uploadTask.observe(.success) { (storageTaskSnapshot) in
-      print("success...")
-    }
   }
 }
-
