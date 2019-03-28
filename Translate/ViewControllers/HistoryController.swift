@@ -35,91 +35,47 @@ class HistoryController: UIViewController {
         historyTableView.dataSource = self
         historyTableView.delegate = self
         title = "Histories"
+         fetchHistories()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        if let curentUser = authservice.getCurrentUser() {
-            print("yes")
-            refreshControl.beginRefreshing()
-            let def = DBService.firestoreDB
-                .collection(HistoryCollectionKeys.CollectionKey)
-                .document()
-            
-//            let historyData = History(documentId: def.documentID, createdDate: Date.getISOTimestamp(), userId: curentUser.uid, inputLanguageText: historyData., inputText: "", transLanguagetext: "", transedText: "")
-            
-            DBService.firestoreDB
-                .collection(HistoryCollectionKeys.CollectionKey)
-                .addSnapshotListener { [weak self] (snapshot, error) in
-                    if let error = error {
-                        print("failed to fetch bolg with error: \(error.localizedDescription)")
-                    } else if let snapshot = snapshot {
-                        self?.history = snapshot.documents.map { History(dict: $0.data()) }
-                            .sorted { $0.createdDate.date() > $1.createdDate.date() }
-                    }
-                    DispatchQueue.main.async {
-                        self?.refreshControl.endRefreshing()
-                    }
-            }
-            
-//            DBService.historyData(history: historyData) { [weak self] error in
-//                if let error = error {
-//                    self?.showAlert(title: "History Data Error", message: error.localizedDescription)
-//                } else {
-//                    self?.dismiss(animated: true)
-//                }
-//            }
-
-        } else if  curentUser == nil {
-            let alert = UIAlertController(title: "Warning", message: "You ONLY get access to Histories when you Login!", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
-                let loginVC = LogInController()
-                // self.navigationController?.pushViewController(loginVC, animated: true)
-            })
-            self.present(alert, animated: true, completion: {
-            })
+    func fetchHistories() {
+        refreshControl.beginRefreshing()
+        guard let user = authservice.getCurrentUser() else {
+                let alert = UIAlertController(title: "Warning", message: "You ONLY get access to Histories when you Login!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
+                    let loginVC = LogInController()
+                    self.navigationController?.pushViewController(loginVC, animated: true)
+                })
+                self.present(alert, animated: true, completion: {
+                })
+            return
+        }
+        let def = DBService.firestoreDB
+            .collection(HistoryCollectionKeys.CollectionKey)
+            .document()
+        DBService.firestoreDB
+            .collection(HistoryCollectionKeys.CollectionKey)
+            .addSnapshotListener { [weak self] (snapshot, error) in
+                if let error = error {
+                    print("failed to fetch bolg with error: \(error.localizedDescription)")
+                } else if let snapshot = snapshot {
+                    self?.history = snapshot.documents.map { History(dict: $0.data()) }
+                        .sorted { $0.createdDate.date() > $1.createdDate.date() }
+                }
+                DispatchQueue.main.async {
+                    self?.refreshControl.endRefreshing()
+                }
         }
     }
+    
+
     @objc private func historyDataLoad() {
         guard let user = authservice.getCurrentUser() else {
             print("no logged user")
             return
         }
-//        let def = DBService.firestoreDB
-//            .collection(HistoryCollectionKeys.CollectionKey)
-//            .document()
-//  let history = History(documentId: def.documentID, createdDate: Date.getISOTimestamp(), userId: user.uid, inputLanguageText: "", inputText: "", transLanguagetext: "", transedText: "")
-//        DBService.historyData(history: history) { [weak self] error in
-//            if let error = error {
-//                self?.showAlert(title: "History Data Error", message: error.localizedDescription)
-//            } else {
-//                    self?.dismiss(animated: true)
-//                }
-//            }
-        //}
-    }
-    
-//    private func translateInfo(keyword : String, language: String) {
-//        TranslateAPIClient.searchTranslate(keyword: keyword, language: language, completion: { (appError, translate) in
-//            if let appError = appError {
-//                print(appError.errorMessage())
-//            } else if let translate = translate {
-//                //                self.translate = translate
-//                dump(translate)
-//            }
-//        })
-//    }
-//
-//
-//    private func resultsInfo(keyword: String) {
-//        TranslateAPIClient.resultsTranslate(keyword: keyword) { (appError, results) in
-//            if let appError = appError {
-//                print(appError.errorMessage())
-//            } else if let results = results {
-//                print(results)
-//            }
-//        }
-//    }
 
+    }
 }
 
 extension HistoryController: UITableViewDataSource, UITableViewDelegate {
