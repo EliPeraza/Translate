@@ -59,8 +59,11 @@ class LogInController: UIViewController {
     if user.email == emailTextField.text {
       emailTextField.isEnabled = false
       passwordTextfield.isEnabled = false
+        passwordTextfield.isHidden = true
       logInButton.isEnabled = false
+        logInButton.isHidden = true
       userStatus.isEnabled = false
+        userStatus.isHidden = true
     }
   }
   
@@ -91,6 +94,13 @@ class LogInController: UIViewController {
     DBService.fetchUser(userId: user.uid) { (error, user) in
       if let user = user {
         self.emailTextField.text = user.email
+        self.emailTextField.isEnabled = false
+        self.passwordTextfield.isEnabled = false
+        self.passwordTextfield.isHidden = true
+        self.logInButton.isEnabled = false
+        self.logInButton.isHidden = true
+        self.userStatus.isEnabled = false
+        self.userStatus.isHidden = true
       }
       guard let photoURL = user?.photoURL,
         !photoURL.isEmpty else {
