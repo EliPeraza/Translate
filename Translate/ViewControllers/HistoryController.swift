@@ -119,16 +119,41 @@ extension HistoryController: UITableViewDataSource, UITableViewDelegate {
        let histories = history[indexPath.row]
         cell.textEnteredLabel.text = histories.inputText
         cell.textTranslatedLabel.text = histories.transedText
+        cell.favoriteButton.tag = indexPath.row
         cell.favoriteButton.addTarget(self, action: #selector(addFavorite), for: .touchUpInside)
     
         
         return cell
     }
-    @objc func addFavorite() {
+    
+    @objc func addFavorite(_ sender: UIButton) {
+        let addedFavAlert = UIAlertController.init(title: "Added to favorites", message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction.init(title: "Ok", style: .default) { (okPressed) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        // needed to make an instance of the favmodel
+        let date = Date()
+        let isoDateFormatter = ISO8601DateFormatter()
+        isoDateFormatter.formatOptions = [.withFullDate,
+                                          .withFullTime,
+                                          .withInternetDateTime,
+                                          .withTimeZone,
+                                          .withDashSeparatorInDate]
+        let timeStamp = isoDateFormatter.string(from: date)
+        let historyToSave = history[sender.tag]
+        
+        let favorite = FavoritesModel.init(inputLanguage: historyToSave.inputLanguageText, inputLanguageTranslation: historyToSave.inputText, translanguageText: historyToSave.transLanguagetext, outputLanguageText: historyToSave.transedText, createdDate: timeStamp)
+        
+        UserTransTextFileManager.addEntry(transText: favorite)
         
         
+        
+        
+        addedFavAlert.addAction(ok)
+        present(addedFavAlert, animated: true, completion: nil)
         
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.HistoryCellHeight
     }
@@ -136,3 +161,6 @@ extension HistoryController: UITableViewDataSource, UITableViewDelegate {
         
     }
 }
+
+
+

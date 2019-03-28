@@ -11,10 +11,10 @@ import Foundation
 
 struct FavoritesModel: Codable {
   
-  let inputLanguage: String
-  let inputLanguageTranslation: String
-  let inputLanguageText: String
-  let outputLanguageText: String
+  let inputLanguage: String // inputLanguageText
+  let inputLanguageTranslation: String // inputText
+  let translanguageText: String // transLanguageText
+  let outputLanguageText: String //transedText
   let createdDate: String
 }
 

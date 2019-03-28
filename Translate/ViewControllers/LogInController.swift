@@ -17,7 +17,7 @@ enum AccountLoginState {
 }
 
 class LogInController: UIViewController {
-  
+    var data: Data!
   
   @IBOutlet weak var userProfileButtonPicture: UIButton!
   
@@ -46,6 +46,7 @@ class LogInController: UIViewController {
     setUpTextFields()
     authService.authserviceCreateNewAccountDelegate = self
     authService.authserviceExistingAccountDelegate = self
+    authService.authserviceSignOutDelegate = self
     
   }
   
@@ -147,26 +148,6 @@ class LogInController: UIViewController {
     alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
     self.present(alertController, animated: true)
     
-    guard let user = authService.getCurrentUser() else {
-     "no logged in user"
-    return
-    }
-    guard let imageData = selectedImage?.jpegData(compressionQuality: 1.0) else {
-      return
-    }
-    StorageService.postImage(imageData: imageData, imageName: Constants.ProfileImagePath + user.uid) { (error, imageurl) in
-      if let error = error {
-        self.showAlert(title: "Error saving photo", message: error.localizedDescription)
-      } else if let imageURL = imageurl {
-       let request = user.createProfileChangeRequest()
-        request.photoURL = imageURL
-        request.commitChanges(completion: { (error) in
-          if let error = error {
-            self.showAlert(title: "Error saving account info", message: error.localizedDescription)
-          }
-        })
-      }
-    }
     
   }
   
@@ -179,6 +160,37 @@ class LogInController: UIViewController {
     doesUserHaveAccount()
 
   }
+  
+  
+  @IBAction func saveImageButtonPressed(_ sender: UIButton) {
+    
+    guard let user = authService.getCurrentUser(),
+    let imageData = selectedImage?.jpegData(compressionQuality: 1.0) else {
+        return
+    }
+    StorageService.postImage(imageData: imageData, imageName: Constants.ProfileImagePath + user.uid) { (error, imageurl) in
+        if let error = error {
+            self.showAlert(title: "Error saving photo", message: error.localizedDescription)
+        } else if let imageURL = imageurl {
+            let request = user.createProfileChangeRequest()
+            request.photoURL = imageURL
+            request.commitChanges(completion: { (error) in
+                if let error = error {
+                    self.showAlert(title: "Error saving account info", message: error.localizedDescription)
+                }
+            })
+        }
+    }
+    
+  }
+  
+  
+  @IBAction func signOutButtonPressed(_ sender: UIButton) {
+    authService.signOutAccount()
+  }
+  
+  
+  
 }
 
 
@@ -244,4 +256,23 @@ extension LogInController: UITextFieldDelegate {
     textField.resignFirstResponder()
     return true
   }
+}
+
+extension LogInController: AuthServiceSignOutDelegate{
+    func didSignOutWithError(_ authservice: AuthService, error: Error) {
+        showAlert(title: "Problem", message: error.localizedDescription)
+    }
+    
+    func didSignOut(_ authservice: AuthService) {
+        self.emailTextField.text = ""
+        self.emailTextField.isEnabled = true
+        self.passwordTextfield.isEnabled = true
+        self.passwordTextfield.isHidden = false
+        self.logInButton.isEnabled = true
+        self.logInButton.isHidden = false
+        self.userStatus.isEnabled = true
+        self.userStatus.isHidden = false
+    }
+    
+    
 }
