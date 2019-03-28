@@ -69,11 +69,18 @@ class MainViewController: UIViewController {
   
   @IBOutlet weak var translatedTextLabel: UILabel!
   
+  private var textViewPlaceHolder = "Enter text you want to translate"
   
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    configureTextView()
+  }
+  
+  private func configureTextView() {
+   textEnteredByUserToTranslate.delegate = self
+    textEnteredByUserToTranslate.text = textViewPlaceHolder
+    textEnteredByUserToTranslate.textColor = .lightGray
   }
 
   @IBAction func textToSpeechButtonPressed(_ sender: UIButton) {
@@ -203,4 +210,23 @@ extension Dictionary where Value : Equatable {
     }
 }
 
-
+extension MainViewController: UITextViewDelegate {
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    if textView.text == textViewPlaceHolder {
+      textView.text = ""
+      textView.textColor = .black
+    }
+  }
+  
+  func textViewDidEndEditing(_ textView: UITextView) {
+    if textView.text == "" {
+      textView.text = textViewPlaceHolder
+      textView.textColor = .lightGray
+    }
+  }
+  
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true
+  }
+}
