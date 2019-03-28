@@ -26,7 +26,8 @@ class FavoriteController: UIViewController {
             getFavs()
     }
     
-    override func viewWillAppear(_ animated: Bool) { // when i was faving it was not showing in my 
+    // when i was faving it was not showing in my favs controller 
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         getFavs()
     }

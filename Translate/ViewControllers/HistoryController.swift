@@ -104,7 +104,7 @@ extension HistoryController: UITableViewDataSource, UITableViewDelegate {
        let histories = history[indexPath.row]
         cell.textEnteredLabel.text = histories.inputText
         cell.textTranslatedLabel.text = histories.transedText
-        cell.favoriteButton.tag = indexPath.row
+        cell.favoriteButton.tag = indexPath.row  // because the button is in the cell we need a tag
         cell.favoriteButton.addTarget(self, action: #selector(addFavorite), for: .touchUpInside)
     
         
@@ -130,9 +130,6 @@ extension HistoryController: UITableViewDataSource, UITableViewDelegate {
         let favorite = FavoritesModel.init(inputLanguage: historyToSave.inputLanguageText, inputLanguageTranslation: historyToSave.inputText, translanguageText: historyToSave.transLanguagetext, outputLanguageText: historyToSave.transedText, createdDate: timeStamp)
         
         UserTransTextFileManager.addEntry(transText: favorite)
-        
-        
-        
         
         addedFavAlert.addAction(ok)
         present(addedFavAlert, animated: true, completion: nil)
