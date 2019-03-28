@@ -124,6 +124,8 @@ class LogInController: UIViewController {
     alertController.addAction(photoLibrary)
     alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
     self.present(alertController, animated: true)
+    
+    
   }
   
   private func showImagePickerController() {
