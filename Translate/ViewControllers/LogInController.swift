@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import Firebase
 
 enum AccountLoginState {
   case newAccount
@@ -24,14 +26,38 @@ class LogInController: UIViewController {
   @IBOutlet weak var logInButton: UIButton!
   
   @IBOutlet weak var userStatus: UIButton!
-  
+
   private var accountLoginState = AccountLoginState.newAccount
   
   private var authService = AppDelegate.authservice
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    doesUserHaveAccount()
     authService.authserviceCreateNewAccountDelegate = self
+    authService.authserviceExistingAccountDelegate = self
+  }
+  
+  private func doesUserHaveAccount() {
+    accountLoginState = accountLoginState == .newAccount ? .existingAccount : .newAccount
+    switch accountLoginState {
+    case .newAccount:
+      logInButton.setTitle("Create", for: .normal)
+      userStatus.setTitle("Log in to your account", for: .normal)
+    case .existingAccount:
+      logInButton.setTitle("Login", for: .normal)
+      userStatus.setTitle("New user account? Create an account", for: .normal)
+    }
+  }
+  
+  private func fetchUserInformation() {
+    guard let user = authService.getCurrentUser() else {
+     print("no logged in user")
+      return
+    }
+    let _ = DBService.firestoreDB
+    .collection(TRUserCollectionKeys.CollectionKey)
+    .document(user.uid)
   }
   
   @IBAction func logInButtonPressed(_ sender: UIButton) {
@@ -59,5 +85,20 @@ extension LogInController: AuthServiceCreateNewAccountDelegate{
   func didCreateNewAccount(_ authservice: AuthService, reviewer: TRUser) {
     showAlert(title: "Created account!", message: "An account was created using \(emailTextField.text ?? "no email entered")")
   }
+}
+
+extension LogInController: AuthServiceExistingAccountDelegate {
+  func didSignInToExistingAccount(_ authservice: AuthService, user: User) {
+    
+  }
+  
+  
+  func didRecieveErrorSigningToExistingAccount(_ authservice: AuthService, error: Error) {
+    showAlert(title: "SignIn Error", message: error.localizedDescription)
+  }
+  
+
+  
+
 }
 
