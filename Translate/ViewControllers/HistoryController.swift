@@ -42,8 +42,9 @@ class HistoryController: UIViewController {
         super.viewDidLoad()
         historyTableView.dataSource = self
         historyTableView.delegate = self
-        title = "Histories"
+        title = "History"
         if authservice.getCurrentUser() != nil{
+
          fetchHistories()
         }else{
             history.removeAll()
