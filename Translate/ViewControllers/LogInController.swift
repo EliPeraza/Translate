@@ -179,6 +179,17 @@ class LogInController: UIViewController {
     doesUserHaveAccount()
 
   }
+  
+  
+  @IBAction func saveImageButtonPressed(_ sender: UIButton) {
+  }
+  
+  
+  @IBAction func signOutButtonPressed(_ sender: UIButton) {
+  }
+  
+  
+  
 }
 
 

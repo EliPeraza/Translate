@@ -444,28 +444,61 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LzH-Xm-eQk" customClass="CircularButton" customModule="Translate" customModuleProvider="target">
-                                <rect key="frame" x="134" y="174" width="107" height="107"/>
+                                <rect key="frame" x="134" y="151" width="107" height="130"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="107" id="50W-Kg-BwF"/>
-                                    <constraint firstAttribute="width" constant="107" id="umZ-N6-EoU"/>
+                                    <constraint firstAttribute="height" constant="130" id="50W-Kg-BwF"/>
                                 </constraints>
                                 <state key="normal" image="placeholder"/>
                                 <connections>
                                     <action selector="imageButtonPressed:" destination="EJy-de-gVE" eventType="touchUpInside" id="60a-zl-4Pl"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5AX-fB-afs" customClass="CornerButton" customModule="Translate" customModuleProvider="target">
+                                <rect key="frame" x="93" y="567" width="189" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="iPc-bl-EpV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <state key="normal" title="Sign out">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="signOutButtonPressed:" destination="EJy-de-gVE" eventType="touchUpInside" id="xa8-yD-lPP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQN-qc-fBT" customClass="CornerButton" customModule="Translate" customModuleProvider="target">
+                                <rect key="frame" x="272" y="75" width="92" height="40"/>
+                                <color key="backgroundColor" red="0.1647058824" green="0.78039215689999997" blue="0.65490196079999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="e7s-Ec-tPm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <state key="normal" title="Save Image">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveImageButtonPressed:" destination="EJy-de-gVE" eventType="touchUpInside" id="qjA-NO-OF6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="4z4-za-4UZ" firstAttribute="top" secondItem="LzH-Xm-eQk" secondAttribute="bottom" constant="40" id="1QW-2T-40x"/>
+                            <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="gQN-qc-fBT" secondAttribute="trailing" constant="11" id="3IO-37-CFU"/>
+                            <constraint firstItem="5AX-fB-afs" firstAttribute="centerX" secondItem="6KF-is-pKQ" secondAttribute="centerX" id="AY0-gz-vLP"/>
+                            <constraint firstItem="5AX-fB-afs" firstAttribute="leading" secondItem="6KF-is-pKQ" secondAttribute="leading" constant="93" id="AlQ-Hh-Gpo"/>
                             <constraint firstItem="qYK-xm-8fX" firstAttribute="top" secondItem="kB5-c5-CLF" secondAttribute="bottom" constant="11" id="MoZ-Vo-VJa"/>
+                            <constraint firstItem="gQN-qc-fBT" firstAttribute="top" secondItem="6KF-is-pKQ" secondAttribute="top" constant="11" id="NcD-Kf-o5n"/>
                             <constraint firstItem="kB5-c5-CLF" firstAttribute="top" secondItem="4z4-za-4UZ" secondAttribute="bottom" constant="11" id="O05-En-byP"/>
                             <constraint firstItem="FkI-0B-Rsw" firstAttribute="top" secondItem="qYK-xm-8fX" secondAttribute="bottom" constant="11" id="Z2H-Ee-Dt9"/>
                             <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="kB5-c5-CLF" secondAttribute="trailing" constant="30" id="Z8Q-jz-nzW"/>
                             <constraint firstItem="4z4-za-4UZ" firstAttribute="centerY" secondItem="6KF-is-pKQ" secondAttribute="centerY" id="ZZK-T0-hh7"/>
+                            <constraint firstItem="gQN-qc-fBT" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6KF-is-pKQ" secondAttribute="leading" symbolic="YES" id="cdM-Bm-UNC"/>
                             <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="FkI-0B-Rsw" secondAttribute="trailing" constant="11" id="jKJ-3x-J4W"/>
                             <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="4z4-za-4UZ" secondAttribute="trailing" constant="30" id="jrG-3M-Rp4"/>
                             <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="qYK-xm-8fX" secondAttribute="trailing" constant="60" id="lAR-zM-Cet"/>
+                            <constraint firstItem="6KF-is-pKQ" firstAttribute="bottom" secondItem="5AX-fB-afs" secondAttribute="bottom" constant="11" id="niN-Ko-0DP"/>
                             <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="LzH-Xm-eQk" secondAttribute="trailing" constant="134" id="psl-bG-Dgo"/>
                             <constraint firstItem="4z4-za-4UZ" firstAttribute="leading" secondItem="6KF-is-pKQ" secondAttribute="leading" constant="30" id="rXQ-2L-ryc"/>
                             <constraint firstItem="kB5-c5-CLF" firstAttribute="leading" secondItem="6KF-is-pKQ" secondAttribute="leading" constant="30" id="t3e-3b-U8r"/>
