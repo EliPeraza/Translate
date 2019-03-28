@@ -18,7 +18,7 @@ enum languageForButton{
 class MainViewController: UIViewController {
     
     var autoDetectModeling: AutoDetect!
-    var authSession: AuthService!
+    var authSession = AppDelegate.authservice
     var transferedText: TranslateAPIModel!{
         didSet{
             DispatchQueue.main.async {
@@ -69,7 +69,7 @@ class MainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-        
+    
   }
 
   
