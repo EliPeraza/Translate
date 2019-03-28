@@ -274,7 +274,7 @@
                                             <outlet property="flagLanguageTranslatedTo" destination="Gvm-fa-gpJ" id="iRo-zc-m0d"/>
                                             <outlet property="textEnteredLabel" destination="upQ-X0-SZf" id="iaA-27-MAD"/>
                                             <outlet property="textTranslatedLabel" destination="n2P-mB-hnf" id="M0j-KC-VEh"/>
-                                            <segue destination="2wl-hT-HwA" kind="show" id="YMY-cO-6My"/>
+                                            <segue destination="2wl-hT-HwA" kind="show" identifier="historyToDetailSegue" id="YMY-cO-6My"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -369,7 +369,7 @@
                                             <outlet property="flagLanguageTranslatedTo" destination="oIF-jg-MDX" id="XqJ-4M-Lbd"/>
                                             <outlet property="languageEnteredLabel" destination="vN9-IF-XMy" id="nv3-Ut-EUN"/>
                                             <outlet property="languageTranslatedTo" destination="FOK-V2-YNr" id="11g-WT-nct"/>
-                                            <segue destination="2wl-hT-HwA" kind="show" id="VOg-Xt-8hr"/>
+                                            <segue destination="2wl-hT-HwA" kind="show" identifier="favoriteToDetailSegue" id="VOg-Xt-8hr"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -42,7 +42,7 @@ class HistoryController: UIViewController {
         super.viewDidLoad()
         historyTableView.dataSource = self
         historyTableView.delegate = self
-        title = "Histories"
+        title = "History"
          fetchHistories()
     }
     
