@@ -17,7 +17,7 @@ enum AccountLoginState {
 }
 
 class LogInController: UIViewController {
-  
+    var data: Data!
   
   @IBOutlet weak var userProfileButtonPicture: UIButton!
   
@@ -28,7 +28,11 @@ class LogInController: UIViewController {
   @IBOutlet weak var logInButton: UIButton!
   
   @IBOutlet weak var userStatus: UIButton!
-
+  
+  @IBOutlet weak var saveImageButton: UIButton!
+  
+  @IBOutlet weak var signOutButton: CornerButton!
+  
   private var accountLoginState = AccountLoginState.newAccount
   
   private var authService = AppDelegate.authservice
@@ -46,7 +50,8 @@ class LogInController: UIViewController {
     setUpTextFields()
     authService.authserviceCreateNewAccountDelegate = self
     authService.authserviceExistingAccountDelegate = self
-    
+    authService.authserviceSignOutDelegate = self
+    updateProfileUI()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -59,8 +64,11 @@ class LogInController: UIViewController {
     if user.email == emailTextField.text {
       emailTextField.isEnabled = false
       passwordTextfield.isEnabled = false
+        passwordTextfield.isHidden = true
       logInButton.isEnabled = false
+        logInButton.isHidden = true
       userStatus.isEnabled = false
+        userStatus.isHidden = true
     }
   }
   
@@ -88,18 +96,19 @@ class LogInController: UIViewController {
      print("no logged in user")
       return
     }
-    DBService.fetchUser(userId: user.uid) { (error, user) in
-      if let user = user {
         self.emailTextField.text = user.email
-      }
-      guard let photoURL = user?.photoURL,
-        !photoURL.isEmpty else {
-       print("couldn't find photo")
-          return
-      }
-      self.userProfileButtonPicture.kf.setImage(with: URL(string: photoURL), for: .normal)
+        self.emailTextField.isEnabled = false
+        self.passwordTextfield.isEnabled = false
+        self.passwordTextfield.isHidden = true
+        self.logInButton.isEnabled = false
+        self.logInButton.isHidden = true
+        self.userStatus.isEnabled = false
+        self.userStatus.isHidden = true
+    if let photoURL = user.photoURL{
+        self.userProfileButtonPicture.kf.setImage(with: URL(string: photoURL.absoluteString), for: .normal)
+
     }
-  }
+    }
   
   @IBAction func logInButtonPressed(_ sender: UIButton) {
     guard let email = emailTextField.text,
@@ -120,7 +129,7 @@ class LogInController: UIViewController {
   }
   
   @IBAction func imageButtonPressed(_ sender: UIButton) {
-    
+    if let _ = authService.getCurrentUser(){
     let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
       self.imagePickerController.sourceType = .camera
@@ -137,28 +146,9 @@ class LogInController: UIViewController {
     alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
     self.present(alertController, animated: true)
     
-    guard let user = authService.getCurrentUser() else {
-     "no logged in user"
-    return
-    }
-    guard let imageData = selectedImage?.jpegData(compressionQuality: 1.0) else {
-      return
-    }
-    StorageService.postImage(imageData: imageData, imageName: Constants.ProfileImagePath + user.uid) { (error, imageurl) in
-      if let error = error {
-        self.showAlert(title: "Error saving photo", message: error.localizedDescription)
-      } else if let imageURL = imageurl {
-       let request = user.createProfileChangeRequest()
-        request.photoURL = imageURL
-        request.commitChanges(completion: { (error) in
-          if let error = error {
-            self.showAlert(title: "Error saving account info", message: error.localizedDescription)
-          }
-        })
-      }
-    }
     
   }
+    }
   
   private func showImagePickerController() {
     present(imagePickerController, animated: true, completion: nil)
@@ -169,6 +159,37 @@ class LogInController: UIViewController {
     doesUserHaveAccount()
 
   }
+  
+  
+  @IBAction func saveImageButtonPressed(_ sender: UIButton) {
+    
+    guard let user = authService.getCurrentUser(),
+    let imageData = selectedImage?.jpegData(compressionQuality: 1.0) else {
+        return
+    }
+    StorageService.postImage(imageData: imageData, imageName: Constants.ProfileImagePath + user.uid) { (error, imageurl) in
+        if let error = error {
+            self.showAlert(title: "Error saving photo", message: error.localizedDescription)
+        } else if let imageURL = imageurl {
+            let request = user.createProfileChangeRequest()
+            request.photoURL = imageURL
+            request.commitChanges(completion: { (error) in
+                if let error = error {
+                    self.showAlert(title: "Error saving account info", message: error.localizedDescription)
+                }
+            })
+        }
+    }
+    
+  }
+  
+  
+  @IBAction func signOutButtonPressed(_ sender: UIButton) {
+    authService.signOutAccount()
+  }
+  
+  
+  
 }
 
 
@@ -234,4 +255,24 @@ extension LogInController: UITextFieldDelegate {
     textField.resignFirstResponder()
     return true
   }
+}
+
+extension LogInController: AuthServiceSignOutDelegate{
+    func didSignOutWithError(_ authservice: AuthService, error: Error) {
+        showAlert(title: "Problem", message: error.localizedDescription)
+    }
+    
+    func didSignOut(_ authservice: AuthService) {
+        self.emailTextField.text = ""
+        self.emailTextField.isEnabled = true
+        self.passwordTextfield.isEnabled = true
+        self.passwordTextfield.isHidden = false
+        self.logInButton.isEnabled = true
+        self.logInButton.isHidden = false
+        self.userStatus.isEnabled = true
+        self.userStatus.isHidden = false
+        self.userProfileButtonPicture.setImage(UIImage.init(named: "placeholder"), for: .normal)
+    }
+    
+    
 }

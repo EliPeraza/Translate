@@ -41,8 +41,8 @@ class MainViewController: UIViewController {
   
   var baseLanguage = "English"{
     didSet{
-      //            flagLanguageEntered.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
       DispatchQueue.main.async {
+        self.flagLanguageEntered.image = UIImage.init(named: (self.language.allKeysForValue(val: self.baseLanguage)?.first)!)
         self.baseLanguageButton.setTitle(self.baseLanguage, for: .normal)
       }
     }
@@ -50,8 +50,9 @@ class MainViewController: UIViewController {
   
   var translateLanguage = "Spanish"{
     didSet{
-      //        flagLanguageTranslatedTo.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
+
       DispatchQueue.main.async{
+        self.flagLanguageTranslatedTo.image = UIImage.init(named: (self.language.allKeysForValue(val: self.translateLanguage)?.first)!)
         self.translationLanguageButton.setTitle(self.translateLanguage, for: .normal)
       }
     }
@@ -75,6 +76,8 @@ class MainViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureTextView()
+            self.flagLanguageEntered.image = UIImage.init(named: (self.language.allKeysForValue(val: self.baseLanguage)?.first)!)
+            self.flagLanguageTranslatedTo.image = UIImage.init(named: (self.language.allKeysForValue(val: self.translateLanguage)?.first)!)
   }
   
   private func configureTextView() {

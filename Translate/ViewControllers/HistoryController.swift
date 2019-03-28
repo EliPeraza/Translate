@@ -46,6 +46,21 @@ class HistoryController: UIViewController {
          fetchHistories()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let indexPath = historyTableView.indexPathForSelectedRow,
+            let transDVC = segue.destination as? DetailedController else {
+                fatalError("cannot segue to transDVC")
+        }
+        let historiesDVC = history[indexPath.row]
+        
+        transDVC.inputText = historiesDVC.inputText
+        transDVC.transText = historiesDVC.transedText
+        transDVC.inputTitleLanguage = historiesDVC.inputLanguageText
+        transDVC.transTitleLanguage = historiesDVC.transLanguagetext
+        transDVC.historyDetail = historiesDVC
+    }
+    
+    
     func fetchHistories() {
         refreshControl.beginRefreshing()
         guard let user = authservice.getCurrentUser() else {
