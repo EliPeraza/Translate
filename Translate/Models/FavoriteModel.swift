@@ -11,7 +11,7 @@ import Foundation
 
 struct Favorite {
     
-    let languageSelected: String
+    let languageInput: String
     let languageTranslation: String
     let inputText: String
     let outputText: String
