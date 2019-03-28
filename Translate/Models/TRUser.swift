@@ -10,14 +10,12 @@ import Foundation
 
 struct TRUser {
     let userId: String
-    let displayName: String
     let email: String
     let photoURL: String?
     let joinedDate: String
     
-    init(userId: String, displayName: String, email: String, photoURL: String?, joinedDate: String) {
+    init(userId: String, email: String, photoURL: String?, joinedDate: String) {
       self.userId = userId
-      self.displayName = displayName
       self.email = email
       self.photoURL = photoURL
       self.joinedDate = joinedDate
@@ -25,7 +23,6 @@ struct TRUser {
     
     init(dict: [String: Any]) {
       self.userId = dict[TRUserCollectionKeys.UserIdKey] as? String ?? ""
-      self.displayName = dict[TRUserCollectionKeys.DisplayNameKey] as? String ?? ""
       self.email = dict[TRUserCollectionKeys.EmailKey] as? String ?? ""
       self.photoURL = dict[TRUserCollectionKeys.PhotoURLKey] as? String ?? ""
       self.joinedDate = dict[TRUserCollectionKeys.JoinedDateKey] as? String ?? ""

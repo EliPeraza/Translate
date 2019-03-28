@@ -57,7 +57,31 @@ class CornerTextView: UITextView {
 }
 
 @IBDesignable
+class CornerLabel: UILabel {
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    contentMode = .scaleAspectFill
+    layer.cornerRadius = 12.0
+    layer.borderColor = UIColor.lightGray.cgColor
+    layer.borderWidth = 0.5
+    clipsToBounds = true
+  }
+}
+
+@IBDesignable
 class CornerScrollView: UIScrollView {
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    contentMode = .scaleAspectFill
+    layer.cornerRadius = 12.0
+    layer.borderColor = UIColor.lightGray.cgColor
+    layer.borderWidth = 0.5
+    clipsToBounds = true
+  }
+}
+
+@IBDesignable
+class CornerButton: UIButton {
   override func layoutSubviews() {
     super.layoutSubviews()
     contentMode = .scaleAspectFill
