@@ -19,7 +19,7 @@ struct TRUserCollectionKeys {
 }
 
 extension DBService {
-  static public func createNDUser(user: TRUser, completion: @escaping (Error?) -> Void) {
+  static public func createdUser(user: TRUser, completion: @escaping (Error?) -> Void) {
     firestoreDB.collection(TRUserCollectionKeys.CollectionKey)
       .document(user.userId)
       .setData([ TRUserCollectionKeys.UserIdKey : user.userId,
