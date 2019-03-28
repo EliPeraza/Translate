@@ -14,13 +14,11 @@ final class TranslateAPIClient {
         
         NetworkHelper.shared.performDataTask(endpointURLString: "https://translate.yandex.net/api/v1.5/tr.json/translate?lang=\(language)&key=\(SecretKeys.translateKey)&text=\(keyword)", httpMethod: "GET", httpBody: nil) { (appError, data) in
             if let appError = appError {
-                print(appError)
                 completion(appError, nil)
             } else if let data = data {
                 do {
                     let translateData = try JSONDecoder().decode(TranslateAPIModel.self, from: data)
                     completion(nil, translateData)
-                    print("\(translateData)")
                     
                 } catch {
                     completion(appError, nil)
@@ -30,19 +28,17 @@ final class TranslateAPIClient {
         }
     }
     
-    static func resultsTranslate(keyword: String, completion: @escaping (AppError?, [TranslateAPIModel]?) -> Void) {
+    static func resultsTranslate(keyword: String, completion: @escaping (AppError?, TranslateAPIModel?) -> Void) {
         
         NetworkHelper.shared.performDataTask(endpointURLString: "https://translate.yandex.net/api/v1.5/tr.json/detect?key=\(SecretKeys.translateKey)&text=\(keyword)", httpMethod: "GET", httpBody: nil) { (appError, data) in
             if let appError = appError {
-                print(appError)
                 completion(appError, nil)
             }
             if let data = data {
                 do {
-                    let resultsData = try JSONDecoder().decode([TranslateAPIModel].self, from: data)
+                    let resultsData = try JSONDecoder().decode(TranslateAPIModel.self, from: data)
                     
                     completion(nil, resultsData)
-                    print("\(resultsData)")
                 } catch {
                     completion(appError, nil)
                     

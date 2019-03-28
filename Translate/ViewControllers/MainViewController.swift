@@ -11,6 +11,9 @@ import Kingfisher
 
 class MainViewController: UIViewController {
     
+    var autoDetectModeling: AutoDetect!
+    var transferedText: TranslateAPIModel!
+    
     var language = ["en": "English", "zh": "Chinese", "es": "Spanish", "hi": "Hindi", "de": "German", "ur": "Urdu",
         "bn": "Bengali", "ru": "Russian", "ja": "Japanese", "fr": "French"]
   
@@ -21,18 +24,18 @@ class MainViewController: UIViewController {
     
     var baseLanguage = ""{
         didSet{
-            flagLanguageEntered.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
+//            flagLanguageEntered.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
             baseLanguageButton.setTitle(baseLanguage, for: .normal)
         }
     }
     
     var translateLanguage = ""{
         didSet{
-        flagLanguageTranslatedTo.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
+//        flagLanguageTranslatedTo.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
             translationLanguageButton.setTitle(translateLanguage, for: .normal)
         }
     }
-    var autoDetect = ""
+    var autoDetectedLanguage = ""
     
     
     @IBOutlet weak var baseLanguageButton: UIButton!
@@ -51,32 +54,58 @@ class MainViewController: UIViewController {
 
   
   @IBAction func selectBaseLanguageButtonPressed(_ sender: UIButton) {
-    
+    //maynot need
   }
   
   @IBAction func selectLanguageToTranslateToButtonPressed(_ sender: UIButton) {
+    //maynot Need
   }
   
   
   @IBAction func translateButtonPressed(_ sender: UIButton) {
     
+    
   }
   @IBAction func autoDetect(_ sender: UIButton) {
-    "the over api goes here Auto Detect"
+    if let text = textEnteredByUserToTranslate.text{
+        if text.isEmpty{
+            showAlert(title: "No fields Enterd", message: "Give me some data to work with")
+        }else{
+            TranslateAPIClient.resultsTranslate(keyword: text) { (error, auto) in
+                if let error = error{
+                    self.showAlert(title: "error", message: error.localizedDescription)
+                    
+                }else if let auto = auto{
+//                    if let languageFound = auto.lang{
+//                        self.baseLanguage = selfgi.language[auto.lang]
+//                    }
+                }
+                
+            }
+        }
+    }
   }
   
   @IBAction func unwindSeque(_ segue: UIStoryboardSegue){
+    if segue.identifier == "languageToTranslateTo"{
+        if let otherName = language[""]{
+            baseLanguage = otherName
+        }
+    } else if segue.identifier == "baseLanguage"{
     if let fullNameOfLanguage = language["en"]{
-        
+        translateLanguage = fullNameOfLanguage
+    }
     }
   }
 }
 
 extension MainViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ""{
-            
-        } else if segue.identifier == ""{
+        if segue.identifier == "languageToTranslateTo"{
+            for key in language{
+                
+            }
+        } else if segue.identifier == "baseLanguage"{
             
         }
     }
