@@ -47,7 +47,7 @@ class LogInController: UIViewController {
     authService.authserviceCreateNewAccountDelegate = self
     authService.authserviceExistingAccountDelegate = self
     authService.authserviceSignOutDelegate = self
-    
+    updateProfileUI()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -92,8 +92,6 @@ class LogInController: UIViewController {
      print("no logged in user")
       return
     }
-    DBService.fetchUser(userId: user.uid) { (error, user) in
-      if let user = user {
         self.emailTextField.text = user.email
         self.emailTextField.isEnabled = false
         self.passwordTextfield.isEnabled = false
@@ -102,15 +100,11 @@ class LogInController: UIViewController {
         self.logInButton.isHidden = true
         self.userStatus.isEnabled = false
         self.userStatus.isHidden = true
-      }
-      guard let photoURL = user?.photoURL,
-        !photoURL.isEmpty else {
-       print("couldn't find photo")
-          return
-      }
-      self.userProfileButtonPicture.kf.setImage(with: URL(string: photoURL), for: .normal)
+    if let photoURL = user.photoURL{
+        self.userProfileButtonPicture.kf.setImage(with: URL(string: photoURL.absoluteString), for: .normal)
+
     }
-  }
+    }
   
   @IBAction func logInButtonPressed(_ sender: UIButton) {
     guard let email = emailTextField.text,
@@ -131,7 +125,7 @@ class LogInController: UIViewController {
   }
   
   @IBAction func imageButtonPressed(_ sender: UIButton) {
-    
+    if let _ = authService.getCurrentUser(){
     let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
       self.imagePickerController.sourceType = .camera
@@ -150,6 +144,7 @@ class LogInController: UIViewController {
     
     
   }
+    }
   
   private func showImagePickerController() {
     present(imagePickerController, animated: true, completion: nil)
@@ -272,6 +267,7 @@ extension LogInController: AuthServiceSignOutDelegate{
         self.logInButton.isHidden = false
         self.userStatus.isEnabled = true
         self.userStatus.isHidden = false
+        self.userProfileButtonPicture.setImage(UIImage.init(named: "placeholder"), for: .normal)
     }
     
     
