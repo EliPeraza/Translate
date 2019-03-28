@@ -18,7 +18,6 @@ class DetailedController: UIViewController {
   @IBOutlet weak var textEntered: UITextView!
   
   
-  
   @IBOutlet weak var flagLanguageTranslatedTo: UIImageView!
   
   @IBOutlet weak var titleLanguageTranslatedTo: UILabel!
