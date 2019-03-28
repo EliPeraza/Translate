@@ -111,6 +111,8 @@ extension HistoryController: UITableViewDataSource, UITableViewDelegate {
     }
     @objc func addFavorite() {
         
+        
+        
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.HistoryCellHeight
