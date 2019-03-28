@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import AVFoundation
 
 enum languageForButton{
     case baseLanguage
@@ -76,6 +77,15 @@ class MainViewController: UIViewController {
   }
 
   @IBAction func textToSpeechButtonPressed(_ sender: UIButton) {
+    if let string = translatedTextLabel.text{
+    let utterance = AVSpeechUtterance(string: string)
+    utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+    let synth = AVSpeechSynthesizer()
+    synth.speak(utterance)
+    }
+    else{
+        showAlert(title: "Problem", message: "nothing to translate")
+    }
   }
   
   @IBAction func selectBaseLanguageButtonPressed(_ sender: UIButton) {
