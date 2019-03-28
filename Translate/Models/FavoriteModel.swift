@@ -9,7 +9,7 @@
 import Foundation
 //data persistence 
 
-struct Favorite {
+struct FavoritesModel {
     
     let languageInput: String
     let languageTranslation: String
