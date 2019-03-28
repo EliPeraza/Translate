@@ -11,21 +11,24 @@ import UIKit
 class LanguageViewController: UIViewController {
 // this is the detailVC
     
-    var languages = [String](){
-        didSet{
-            selectLanguageTableView.reloadData()
-        }
-    }
+    var languages = [String]()
+    var languagedSelected = "English"
 
   @IBOutlet weak var selectLanguageTableView: UITableView!
   
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        selectLanguageTableView.delegate = self
+        selectLanguageTableView.dataSource = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        languages.removeAll()
     }
   
   @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-    
+    performSegue(withIdentifier: "unwinding", sender: self)
   }
   
   @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
@@ -47,5 +50,7 @@ extension LanguageViewController: UITableViewDataSource, UITableViewDelegate{
       return cell 
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        languagedSelected = languages[indexPath.row]
+    }
 }

@@ -10,10 +10,6 @@ import Foundation
 //data persistence 
 
 struct Favorite {
-    
-    let documentId: String
-    let createdDate: String
-    let userId: String
     let inputLanguageText: String
     let inputText: String
     let transLanguagetext: String

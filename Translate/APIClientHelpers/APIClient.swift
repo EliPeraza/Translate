@@ -28,7 +28,7 @@ final class TranslateAPIClient {
         }
     }
     
-    static func resultsTranslate(keyword: String, completion: @escaping (AppError?, TranslateAPIModel?) -> Void) {
+    static func resultsTranslate(keyword: String, completion: @escaping (AppError?, AutoDetect?) -> Void) {
         
         NetworkHelper.shared.performDataTask(endpointURLString: "https://translate.yandex.net/api/v1.5/tr.json/detect?key=\(SecretKeys.translateKey)&text=\(keyword)", httpMethod: "GET", httpBody: nil) { (appError, data) in
             if let appError = appError {
@@ -36,7 +36,7 @@ final class TranslateAPIClient {
             }
             if let data = data {
                 do {
-                    let resultsData = try JSONDecoder().decode(TranslateAPIModel.self, from: data)
+                    let resultsData = try JSONDecoder().decode(AutoDetect.self, from: data)
                     
                     completion(nil, resultsData)
                 } catch {
