@@ -112,12 +112,25 @@
                                                     <action selector="autoDetect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eEc-so-aJO"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F98-td-w9x" customClass="CornerButton" customModule="Translate" customModuleProvider="target">
+                                                <rect key="frame" x="129" y="484.5" width="117" height="40"/>
+                                                <color key="backgroundColor" red="0.1647058824" green="0.78039215689999997" blue="0.65490196079999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="4FC-FY-tSt"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                <state key="normal" title="Text -&gt; Speech">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="opt-3E-Uf7" firstAttribute="leading" secondItem="S4X-Xc-QeC" secondAttribute="leading" constant="20" id="1Zk-KH-opT"/>
                                             <constraint firstItem="opt-3E-Uf7" firstAttribute="top" secondItem="PMx-GW-BfR" secondAttribute="bottom" constant="20" id="56l-TP-iSc"/>
                                             <constraint firstItem="nau-aK-sLb" firstAttribute="top" secondItem="xXy-ev-25r" secondAttribute="bottom" constant="20" id="6qa-JQ-2Tx"/>
+                                            <constraint firstItem="F98-td-w9x" firstAttribute="top" secondItem="nau-aK-sLb" secondAttribute="bottom" constant="11" id="7IY-Bw-SDy"/>
+                                            <constraint firstAttribute="trailing" secondItem="F98-td-w9x" secondAttribute="trailing" constant="129" id="E2l-QA-pxO"/>
                                             <constraint firstItem="wnw-Fh-DF9" firstAttribute="leading" secondItem="S4X-Xc-QeC" secondAttribute="leading" constant="20" id="FLt-U6-LE1"/>
                                             <constraint firstItem="xXy-ev-25r" firstAttribute="top" secondItem="KCZ-5j-tSw" secondAttribute="bottom" constant="20" id="GNB-rm-qBW"/>
                                             <constraint firstItem="hCa-Zt-IBN" firstAttribute="leading" secondItem="PMx-GW-BfR" secondAttribute="trailing" constant="5" id="H7g-6w-6Mj"/>
@@ -135,6 +148,7 @@
                                             <constraint firstItem="opt-3E-Uf7" firstAttribute="height" secondItem="S4X-Xc-QeC" secondAttribute="height" multiplier="0.24" id="wfI-QA-cUr"/>
                                             <constraint firstItem="xXy-ev-25r" firstAttribute="leading" secondItem="S4X-Xc-QeC" secondAttribute="leading" constant="20" id="whL-Du-08k"/>
                                             <constraint firstAttribute="trailing" secondItem="nau-aK-sLb" secondAttribute="trailing" constant="60" id="wjE-p7-cLJ"/>
+                                            <constraint firstItem="F98-td-w9x" firstAttribute="leading" secondItem="S4X-Xc-QeC" secondAttribute="leading" constant="129" id="wyi-CQ-DOg"/>
                                             <constraint firstItem="KCZ-5j-tSw" firstAttribute="centerY" secondItem="S4X-Xc-QeC" secondAttribute="centerY" id="yFb-x3-WSD"/>
                                             <constraint firstItem="wnw-Fh-DF9" firstAttribute="centerY" secondItem="S4X-Xc-QeC" secondAttribute="centerY" id="yFo-4W-zl3"/>
                                         </constraints>
