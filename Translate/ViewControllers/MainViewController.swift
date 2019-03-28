@@ -11,55 +11,55 @@ import Kingfisher
 import AVFoundation
 
 enum languageForButton{
-    case baseLanguage
-    case translatedLanguage
+  case baseLanguage
+  case translatedLanguage
 }
 
 
 class MainViewController: UIViewController {
-    
-    var autoDetectModeling: AutoDetect!
-    var authSession = AppDelegate.authservice
-    var transferedText: TranslateAPIModel!{
-        didSet{
-            DispatchQueue.main.async {
-                self.translatedTextLabel.text = self.transferedText.text.first ?? "No text was found"
-            }
-        }
+  
+  var autoDetectModeling: AutoDetect!
+  var authSession = AppDelegate.authservice
+  var transferedText: TranslateAPIModel!{
+    didSet{
+      DispatchQueue.main.async {
+        self.translatedTextLabel.text = self.transferedText.text.first ?? "No text was found"
+      }
     }
-    
-    
-    var caseOfButton = languageForButton.baseLanguage
-    
-    var language = ["en": "English", "zh": "Chinese", "es": "Spanish", "hi": "Hindi", "de": "German", "ur": "Urdu",
-        "bn": "Bengali", "ru": "Russian", "ja": "Japanese", "fr": "French"]
+  }
+  
+  
+  var caseOfButton = languageForButton.baseLanguage
+  
+  var language = ["en": "English", "zh": "Chinese", "es": "Spanish", "hi": "Hindi", "de": "German", "ur": "Urdu",
+                  "bn": "Bengali", "ru": "Russian", "ja": "Japanese", "fr": "French"]
   
   @IBOutlet weak var flagLanguageEntered: UIImageView!
   
   @IBOutlet weak var flagLanguageTranslatedTo: UIImageView!
   
-    
-    var baseLanguage = "English"{
-        didSet{
-//            flagLanguageEntered.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
-            DispatchQueue.main.async {
-                self.baseLanguageButton.setTitle(self.baseLanguage, for: .normal)
-            }
-        }
+  
+  var baseLanguage = "English"{
+    didSet{
+      //            flagLanguageEntered.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
+      DispatchQueue.main.async {
+        self.baseLanguageButton.setTitle(self.baseLanguage, for: .normal)
+      }
     }
-    
-    var translateLanguage = "Spanish"{
-        didSet{
-//        flagLanguageTranslatedTo.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
-            DispatchQueue.main.async{
-                self.translationLanguageButton.setTitle(self.translateLanguage, for: .normal)
-            }
-        }
+  }
+  
+  var translateLanguage = "Spanish"{
+    didSet{
+      //        flagLanguageTranslatedTo.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
+      DispatchQueue.main.async{
+        self.translationLanguageButton.setTitle(self.translateLanguage, for: .normal)
+      }
     }
-    var autoDetectedLanguage = "en"
-    
-    @IBOutlet weak var baseLanguageButton: UIButton!
-    
+  }
+  var autoDetectedLanguage = "en"
+  
+  @IBOutlet weak var baseLanguageButton: UIButton!
+  
   
   @IBOutlet weak var translationLanguageButton: UIButton!
   
@@ -78,20 +78,21 @@ class MainViewController: UIViewController {
   }
   
   private func configureTextView() {
-   textEnteredByUserToTranslate.delegate = self
+    textEnteredByUserToTranslate.delegate = self
     textEnteredByUserToTranslate.text = textViewPlaceHolder
     textEnteredByUserToTranslate.textColor = .lightGray
+    textEnteredByUserToTranslate.returnKeyType = .done
   }
-
+  
   @IBAction func textToSpeechButtonPressed(_ sender: UIButton) {
     if let string = translatedTextLabel.text{
-    let utterance = AVSpeechUtterance(string: string)
-    utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-    let synth = AVSpeechSynthesizer()
-    synth.speak(utterance)
+      let utterance = AVSpeechUtterance(string: string)
+      utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+      let synth = AVSpeechSynthesizer()
+      synth.speak(utterance)
     }
     else{
-        showAlert(title: "Problem", message: "nothing to translate")
+      showAlert(title: "Problem", message: "nothing to translate")
     }
   }
   
@@ -106,59 +107,59 @@ class MainViewController: UIViewController {
   
   @IBAction func translateButtonPressed(_ sender: UIButton) {
     if let textToTranslate = textEnteredByUserToTranslate.text,
-        let base = language.allKeysForValue(val: baseLanguage),
-        let trans = language.allKeysForValue(val: translateLanguage){
-        if !textToTranslate.isEmpty{
-            TranslateAPIClient.searchTranslate(keyword: textToTranslate, language: "\(base.first!)-\(trans.first!)") { (error, model) in
+      let base = language.allKeysForValue(val: baseLanguage),
+      let trans = language.allKeysForValue(val: translateLanguage){
+      if !textToTranslate.isEmpty{
+        TranslateAPIClient.searchTranslate(keyword: textToTranslate, language: "\(base.first!)-\(trans.first!)") { (error, model) in
+          if let error = error{
+            self.showAlert(title: "error", message: error.errorMessage())
+          }else if let model = model{
+            self.transferedText = model
+            if let user = self.authSession.getCurrentUser(){
+              let docRef = DBService.firestoreDB.collection(HistoryCollectionKeys.CollectionKey)
+                .document()
+              let history = History(documentId: docRef.documentID, createdDate: Date.getISOTimestamp(), userId: user.uid, inputLanguageText: self.baseLanguage, inputText: textToTranslate, transLanguagetext: self.translateLanguage, transedText: self.transferedText.text.first!)
+              DBService.historyData(history: history) { (error) in
                 if let error = error{
-                    self.showAlert(title: "error", message: error.errorMessage())
-                }else if let model = model{
-                    self.transferedText = model
-                    if let user = self.authSession.getCurrentUser(){
-                        let docRef = DBService.firestoreDB.collection(HistoryCollectionKeys.CollectionKey)
-                            .document()
-                        let history = History(documentId: docRef.documentID, createdDate: Date.getISOTimestamp(), userId: user.uid, inputLanguageText: self.baseLanguage, inputText: textToTranslate, transLanguagetext: self.translateLanguage, transedText: self.transferedText.text.first!)
-                        DBService.historyData(history: history) { (error) in
-                            if let error = error{
-                                self.showAlert(title: "Problem", message: error.localizedDescription)
-                            }else{
-                                print("saved")
-                            }
-                        }
-                    }
+                  self.showAlert(title: "Problem", message: error.localizedDescription)
+                }else{
+                  print("saved")
                 }
+              }
             }
-   
-            
-        }else{
-            self.showAlert(title: "Problem", message: "No text entered to translate")
+          }
         }
+        
+        
+      }else{
+        self.showAlert(title: "Problem", message: "No text entered to translate")
+      }
     }else{
-        showAlert(title: "Problem", message: "enter some text, or select a language")
+      showAlert(title: "Problem", message: "enter some text, or select a language")
     }
     
   }
   @IBAction func autoDetect(_ sender: UIButton) {
     if let text = textEnteredByUserToTranslate.text{
-        if text.isEmpty{
-            showAlert(title: "No fields Enterd", message: "Give me some data to work with")
-        }else{
-            TranslateAPIClient.resultsTranslate(keyword: text) { (error, auto) in
-                if let error = error{
-                    self.showAlert(title: "error", message: error.localizedDescription)
-                    
-                }else if let auto = auto{
-                    if let lang = self.language[auto.lang]{
-                        DispatchQueue.main.async {
-                            self.baseLanguage = lang
-                        }
-                    }
-                }else{
-                    self.showAlert(title: "Language not supported", message: nil)
-                }
-                
+      if text.isEmpty{
+        showAlert(title: "No fields Enterd", message: "Give me some data to work with")
+      }else{
+        TranslateAPIClient.resultsTranslate(keyword: text) { (error, auto) in
+          if let error = error{
+            self.showAlert(title: "error", message: error.localizedDescription)
+            
+          }else if let auto = auto{
+            if let lang = self.language[auto.lang]{
+              DispatchQueue.main.async {
+                self.baseLanguage = lang
+              }
             }
+          }else{
+            self.showAlert(title: "Language not supported", message: nil)
+          }
+          
         }
+      }
     }
   }
   
@@ -166,48 +167,48 @@ class MainViewController: UIViewController {
     let languageVC = segue.source as! LanguageViewController
     switch caseOfButton {
     case .baseLanguage:
-        self.baseLanguage = languageVC.languagedSelected
-        baseLanguageButton.setTitle(languageVC.languagedSelected, for: .normal)
+      self.baseLanguage = languageVC.languagedSelected
+      baseLanguageButton.setTitle(languageVC.languagedSelected, for: .normal)
     case .translatedLanguage:
-        self.translateLanguage = languageVC.languagedSelected
-        translationLanguageButton.setTitle(languageVC.languagedSelected, for: .normal)
+      self.translateLanguage = languageVC.languagedSelected
+      translationLanguageButton.setTitle(languageVC.languagedSelected, for: .normal)
     }
   }
 }
 
 extension MainViewController{
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "languageToTranslateTo"{
-            caseOfButton = languageForButton.baseLanguage
-            var languagedToTransfer = [String]()
-           guard let languageDVC = segue.destination as? LanguageViewController else {
-                fatalError("cannot segue to DVC")
-            }
-            for (_,value) in language{
-                languagedToTransfer.append(value)
-            }
-            languageDVC.languages = languagedToTransfer
-            languagedToTransfer.removeAll()
-        } else if segue.identifier == "baseLanguage"{
-            caseOfButton = languageForButton.translatedLanguage
-            var languagedToTransfer = [String]()
-            guard let languageDVC = segue.destination as? LanguageViewController else {
-                fatalError("cannot segue to DVC")
-            }
-            for (_,value) in language{
-                languagedToTransfer.append(value)
-            }
-            languageDVC.languages = languagedToTransfer
-            languagedToTransfer.removeAll()
-        }
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "languageToTranslateTo"{
+      caseOfButton = languageForButton.baseLanguage
+      var languagedToTransfer = [String]()
+      guard let languageDVC = segue.destination as? LanguageViewController else {
+        fatalError("cannot segue to DVC")
+      }
+      for (_,value) in language{
+        languagedToTransfer.append(value)
+      }
+      languageDVC.languages = languagedToTransfer
+      languagedToTransfer.removeAll()
+    } else if segue.identifier == "baseLanguage"{
+      caseOfButton = languageForButton.translatedLanguage
+      var languagedToTransfer = [String]()
+      guard let languageDVC = segue.destination as? LanguageViewController else {
+        fatalError("cannot segue to DVC")
+      }
+      for (_,value) in language{
+        languagedToTransfer.append(value)
+      }
+      languageDVC.languages = languagedToTransfer
+      languagedToTransfer.removeAll()
     }
+  }
 }
 
 
 extension Dictionary where Value : Equatable {
-    func allKeysForValue(val : Value) -> [Key]? {
-        return self.filter { $1 == val }.map { $0.0 }
-    }
+  func allKeysForValue(val : Value) -> [Key]? {
+    return self.filter { $1 == val }.map { $0.0 }
+  }
 }
 
 extension MainViewController: UITextViewDelegate {
@@ -224,9 +225,14 @@ extension MainViewController: UITextViewDelegate {
       textView.textColor = .lightGray
     }
   }
-  
-  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    textField.resignFirstResponder()
+
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    if (text == "\n") {
+      textView.resignFirstResponder()
+      return false
+    }
     return true
   }
+  
 }
+
