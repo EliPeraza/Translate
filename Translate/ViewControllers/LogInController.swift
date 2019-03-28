@@ -32,6 +32,7 @@ class LogInController: UIViewController {
   private var accountLoginState = AccountLoginState.newAccount
   
   private var authService = AppDelegate.authservice
+    
   private var selectedImage: UIImage?
   
   private lazy var imagePickerController: UIImagePickerController = {
