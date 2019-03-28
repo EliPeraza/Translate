@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import Toucan
+import Kingfisher
 
 enum AccountLoginState {
   case newAccount
@@ -42,7 +43,6 @@ class LogInController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setUpTextFields()
-    doesUserHaveAccount()
     authService.authserviceCreateNewAccountDelegate = self
     authService.authserviceExistingAccountDelegate = self
     
@@ -87,7 +87,7 @@ class LogInController: UIViewController {
        print("couldn't find photo")
           return
       }
-//      self.userProfileButtonPicture.kf.setImage(with: URL(string: photoURL), placeholder: UIImage(named: "placeholder"))
+      self.userProfileButtonPicture.kf.setImage(with: URL(string: photoURL), for: .normal)
     }
   }
   
@@ -129,7 +129,15 @@ class LogInController: UIViewController {
   private func showImagePickerController() {
     present(imagePickerController, animated: true, completion: nil)
   }
+  
+  
+  @IBAction func switchAccountButtonPressed(_ sender: UIButton) {
+    doesUserHaveAccount()
+
+  }
 }
+
+
 
 
 extension LogInController: AuthServiceCreateNewAccountDelegate{
@@ -168,7 +176,7 @@ extension LogInController: UIImagePickerControllerDelegate, UINavigationControll
     let size = CGSize(width: 500, height: 500)
     let resizedImage = Toucan.Resize.resizeImage(originalImage, size: size)
     selectedImage = resizedImage
-//    self.userProfileButtonPicture.kf.setImage(with: URL(string: resizedImage), placeholder: UIImage(named: "placeholder"))
+    userProfileButtonPicture.setImage(resizedImage, for: .normal)
     dismiss(animated: true)
   }
 }
