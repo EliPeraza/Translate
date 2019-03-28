@@ -22,7 +22,15 @@ class HistoryController: UIViewController {
             }
         }
     }
-    var curentUser: TRUser?
+    var loginUser: TRUser? {
+        didSet {
+            DispatchQueue.main.async {
+                self.historyTableView.reloadData()
+            }
+        }
+    }
+    
+    var currentUser: String?
     private lazy var refreshControl: UIRefreshControl = {
         let rc = UIRefreshControl()
         historyTableView.refreshControl = rc
@@ -50,11 +58,17 @@ class HistoryController: UIViewController {
                 })
             return
         }
-        let def = DBService.firestoreDB
+        if let loginUser = loginUser {
+            currentUser = loginUser.userId
+        } else {
+            currentUser = user.uid
+        }
+        _ = DBService.firestoreDB
             .collection(HistoryCollectionKeys.CollectionKey)
             .document()
         DBService.firestoreDB
             .collection(HistoryCollectionKeys.CollectionKey)
+            .whereField(HistoryCollectionKeys.UserIdKey, isEqualTo: currentUser!)
             .addSnapshotListener { [weak self] (snapshot, error) in
                 if let error = error {
                     print("failed to fetch bolg with error: \(error.localizedDescription)")
@@ -74,7 +88,7 @@ class HistoryController: UIViewController {
             print("no logged user")
             return
         }
-
+            fetchHistories()
     }
 }
 
