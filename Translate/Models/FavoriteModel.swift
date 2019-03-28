@@ -17,3 +17,4 @@ struct FavoritesModel: Codable {
   let outputLanguageText: String
   let createdDate: String
 }
+
