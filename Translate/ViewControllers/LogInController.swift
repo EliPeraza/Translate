@@ -17,7 +17,8 @@ enum AccountLoginState {
 
 class LogInController: UIViewController {
   
-  @IBOutlet weak var userProfilePic: UIImageView!
+  
+  @IBOutlet weak var userProfileButtonPicture: UIButton!
   
   @IBOutlet weak var emailTextField: UITextField!
   
@@ -40,14 +41,24 @@ class LogInController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setUpTextFields()
     doesUserHaveAccount()
     authService.authserviceCreateNewAccountDelegate = self
     authService.authserviceExistingAccountDelegate = self
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(true)
     updateProfileUI()
+  }
+  
+  
+  private func setUpTextFields() {
+    emailTextField.delegate = self
+    passwordTextfield.delegate = self
+    emailTextField.placeholder = "enter email here (e.g. john@john.com)"
+    passwordTextfield.placeholder = "enter password here (e.g. john123)"
   }
   
   private func doesUserHaveAccount() {
@@ -76,7 +87,7 @@ class LogInController: UIViewController {
        print("couldn't find photo")
           return
       }
-      self.userProfilePic.kf.setImage(with: URL(string: photoURL), placeholder: UIImage(named: "placeholder"))
+//      self.userProfileButtonPicture.kf.setImage(with: URL(string: photoURL), placeholder: UIImage(named: "placeholder"))
     }
   }
   
@@ -95,7 +106,31 @@ class LogInController: UIViewController {
       authService.signInExistingAccount(email: email, password: passWord)
     }
   }
+  
+  @IBAction func imageButtonPressed(_ sender: UIButton) {
+    
+    let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
+      self.imagePickerController.sourceType = .camera
+      self.showImagePickerController()
+    }
+    let photoLibrary = UIAlertAction(title: "Photo Library", style: .default) { (action) in
+      self.imagePickerController.sourceType = .photoLibrary
+      self.showImagePickerController()
+    }
+    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+      alertController.addAction(cameraAction)
+    }
+    alertController.addAction(photoLibrary)
+    alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+    self.present(alertController, animated: true)
+  }
+  
+  private func showImagePickerController() {
+    present(imagePickerController, animated: true, completion: nil)
+  }
 }
+
 
 extension LogInController: AuthServiceCreateNewAccountDelegate{
   func didRecieveErrorCreatingAccount(_ authservice: AuthService, error: Error) {
@@ -109,7 +144,7 @@ extension LogInController: AuthServiceCreateNewAccountDelegate{
 
 extension LogInController: AuthServiceExistingAccountDelegate {
   func didSignInToExistingAccount(_ authservice: AuthService, user: User) {
-    
+    showAlert(title: "Welcome!", message: "You are logged in")
   }
   
   
@@ -133,8 +168,28 @@ extension LogInController: UIImagePickerControllerDelegate, UINavigationControll
     let size = CGSize(width: 500, height: 500)
     let resizedImage = Toucan.Resize.resizeImage(originalImage, size: size)
     selectedImage = resizedImage
-    userProfilePic.image = resizedImage
+//    self.userProfileButtonPicture.kf.setImage(with: URL(string: resizedImage), placeholder: UIImage(named: "placeholder"))
     dismiss(animated: true)
   }
 }
 
+extension LogInController: UITextFieldDelegate {
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    textField.becomeFirstResponder()
+    if textField.text == textField.placeholder {
+      textField.text = ""
+      textField.textColor = .black
+    }
+  }
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    if textField.text == "" {
+      textField.text = textField.placeholder
+      textField.textColor = .lightGray
+    }
+  }
+  
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true
+  }
+}

@@ -384,9 +384,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_placeholder_png_698104" translatesAutoresizingMaskIntoConstraints="NO" id="2DW-t5-uaY" customClass="CircularImageView" customModule="Translate" customModuleProvider="target">
-                                <rect key="frame" x="112.5" y="138" width="150" height="133.5"/>
-                            </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4z4-za-4UZ">
                                 <rect key="frame" x="30" y="321" width="315" height="40"/>
                                 <constraints>
@@ -426,25 +423,35 @@
                                 </constraints>
                                 <state key="normal" title="New user? Create account!"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LzH-Xm-eQk" customClass="CircularButton" customModule="Translate" customModuleProvider="target">
+                                <rect key="frame" x="134" y="174" width="107" height="107"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="107" id="50W-Kg-BwF"/>
+                                    <constraint firstAttribute="width" constant="107" id="umZ-N6-EoU"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="imageButtonPressed:" destination="EJy-de-gVE" eventType="touchUpInside" id="60a-zl-4Pl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="2DW-t5-uaY" firstAttribute="centerX" secondItem="6KF-is-pKQ" secondAttribute="centerX" id="3Pd-R3-MVc"/>
+                            <constraint firstItem="4z4-za-4UZ" firstAttribute="top" secondItem="LzH-Xm-eQk" secondAttribute="bottom" constant="40" id="1QW-2T-40x"/>
                             <constraint firstItem="qYK-xm-8fX" firstAttribute="top" secondItem="kB5-c5-CLF" secondAttribute="bottom" constant="11" id="MoZ-Vo-VJa"/>
                             <constraint firstItem="kB5-c5-CLF" firstAttribute="top" secondItem="4z4-za-4UZ" secondAttribute="bottom" constant="11" id="O05-En-byP"/>
                             <constraint firstItem="FkI-0B-Rsw" firstAttribute="top" secondItem="qYK-xm-8fX" secondAttribute="bottom" constant="11" id="Z2H-Ee-Dt9"/>
                             <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="kB5-c5-CLF" secondAttribute="trailing" constant="30" id="Z8Q-jz-nzW"/>
                             <constraint firstItem="4z4-za-4UZ" firstAttribute="centerY" secondItem="6KF-is-pKQ" secondAttribute="centerY" id="ZZK-T0-hh7"/>
-                            <constraint firstItem="2DW-t5-uaY" firstAttribute="height" secondItem="0OF-Gq-wAP" secondAttribute="height" multiplier="0.2" id="eHp-HB-M6y"/>
                             <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="FkI-0B-Rsw" secondAttribute="trailing" constant="11" id="jKJ-3x-J4W"/>
                             <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="4z4-za-4UZ" secondAttribute="trailing" constant="30" id="jrG-3M-Rp4"/>
                             <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="qYK-xm-8fX" secondAttribute="trailing" constant="60" id="lAR-zM-Cet"/>
-                            <constraint firstItem="2DW-t5-uaY" firstAttribute="centerY" secondItem="6KF-is-pKQ" secondAttribute="centerY" multiplier="0.6" id="n5y-V7-Kzi"/>
+                            <constraint firstItem="6KF-is-pKQ" firstAttribute="trailing" secondItem="LzH-Xm-eQk" secondAttribute="trailing" constant="134" id="psl-bG-Dgo"/>
                             <constraint firstItem="4z4-za-4UZ" firstAttribute="leading" secondItem="6KF-is-pKQ" secondAttribute="leading" constant="30" id="rXQ-2L-ryc"/>
-                            <constraint firstItem="2DW-t5-uaY" firstAttribute="width" secondItem="0OF-Gq-wAP" secondAttribute="width" multiplier="0.4" id="s2a-2D-XIN"/>
                             <constraint firstItem="kB5-c5-CLF" firstAttribute="leading" secondItem="6KF-is-pKQ" secondAttribute="leading" constant="30" id="t3e-3b-U8r"/>
                             <constraint firstItem="qYK-xm-8fX" firstAttribute="leading" secondItem="6KF-is-pKQ" secondAttribute="leading" constant="60" id="ult-l5-dXs"/>
                             <constraint firstItem="FkI-0B-Rsw" firstAttribute="leading" secondItem="6KF-is-pKQ" secondAttribute="leading" constant="11" id="xDp-Bz-QX8"/>
+                            <constraint firstItem="LzH-Xm-eQk" firstAttribute="leading" secondItem="6KF-is-pKQ" secondAttribute="leading" constant="134" id="xua-3R-WFr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6KF-is-pKQ"/>
                     </view>
@@ -453,7 +460,7 @@
                         <outlet property="emailTextField" destination="4z4-za-4UZ" id="yS8-3w-nDu"/>
                         <outlet property="logInButton" destination="qYK-xm-8fX" id="JO3-BT-zuj"/>
                         <outlet property="passwordTextfield" destination="kB5-c5-CLF" id="IO2-6z-nW8"/>
-                        <outlet property="userProfilePic" destination="2DW-t5-uaY" id="lWF-uz-2Wi"/>
+                        <outlet property="userProfileButtonPicture" destination="LzH-Xm-eQk" id="9Cp-dy-ZM0"/>
                         <outlet property="userStatus" destination="FkI-0B-Rsw" id="Pml-iy-jIK"/>
                     </connections>
                 </viewController>
