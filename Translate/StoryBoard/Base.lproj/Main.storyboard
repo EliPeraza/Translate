@@ -572,8 +572,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sYb-rQ-cuC">
-                                <rect key="frame" x="30" y="375" width="315" height="213"/>
+                                <rect key="frame" x="30" y="375" width="315" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="2R6-AP-Vd1"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -589,7 +592,6 @@
                             <constraint firstItem="DFx-hG-L90" firstAttribute="trailing" secondItem="fbd-hb-nF5" secondAttribute="trailing" id="X6e-P1-vWW"/>
                             <constraint firstItem="A89-Xt-U9X" firstAttribute="leading" secondItem="ais-30-bur" secondAttribute="leading" constant="30" id="aaA-UW-cG0"/>
                             <constraint firstItem="b6x-0v-G2Y" firstAttribute="leading" secondItem="ais-30-bur" secondAttribute="leading" constant="30" id="bF9-sU-DoF"/>
-                            <constraint firstItem="ais-30-bur" firstAttribute="bottom" secondItem="sYb-rQ-cuC" secondAttribute="bottom" constant="30" id="hv1-Vr-EHq"/>
                             <constraint firstItem="b6x-0v-G2Y" firstAttribute="top" secondItem="DFx-hG-L90" secondAttribute="bottom" constant="20" id="j52-HI-Fim"/>
                             <constraint firstItem="DFx-hG-L90" firstAttribute="top" secondItem="A89-Xt-U9X" secondAttribute="bottom" constant="11" id="kVU-GW-qNn"/>
                             <constraint firstItem="HSd-je-7PQ" firstAttribute="leading" secondItem="b6x-0v-G2Y" secondAttribute="trailing" constant="11" id="oja-uJ-j5H"/>
