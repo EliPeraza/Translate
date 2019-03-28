@@ -8,3 +8,11 @@
 
 import Foundation
 //data persistence 
+
+struct Favorite {
+    
+    let languageSelected: String
+    let languageTranslation: String
+    let inputText: String
+    let outputText: String
+}
