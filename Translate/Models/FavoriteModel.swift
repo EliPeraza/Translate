@@ -9,17 +9,13 @@
 import Foundation
 //data persistence 
 
-<<<<<<< HEAD
 struct FavoritesModel: Codable {
     
-    let languageInput: String
-    let languageTranslation: String
-=======
-struct Favorite {
+    let inputLanguage: String
+    let inputLanguageTranslation: String
     let inputLanguageText: String
->>>>>>> 9e38762a06b11bb730353f12cd1cae677ecd4be0
-    let inputText: String
-    let transLanguageText: String
+    let outputLanguageText: String
     let createdDate: String 
-
 }
+
+
