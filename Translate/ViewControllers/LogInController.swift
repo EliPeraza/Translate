@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import FirebaseAuth
 import Firebase
+import Toucan
 
 enum AccountLoginState {
   case newAccount
@@ -30,12 +30,24 @@ class LogInController: UIViewController {
   private var accountLoginState = AccountLoginState.newAccount
   
   private var authService = AppDelegate.authservice
+  private var selectedImage: UIImage?
+  
+  private lazy var imagePickerController: UIImagePickerController = {
+    let ip = UIImagePickerController()
+    ip.delegate = self
+    return ip
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     doesUserHaveAccount()
     authService.authserviceCreateNewAccountDelegate = self
     authService.authserviceExistingAccountDelegate = self
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(true)
+    updateProfileUI()
   }
   
   private func doesUserHaveAccount() {
@@ -50,14 +62,22 @@ class LogInController: UIViewController {
     }
   }
   
-  private func fetchUserInformation() {
+  private func updateProfileUI() {
     guard let user = authService.getCurrentUser() else {
      print("no logged in user")
       return
     }
-    let _ = DBService.firestoreDB
-    .collection(TRUserCollectionKeys.CollectionKey)
-    .document(user.uid)
+    DBService.fetchUser(userId: user.uid) { (error, user) in
+      if let user = user {
+        self.emailTextField.text = user.email
+      }
+      guard let photoURL = user?.photoURL,
+        !photoURL.isEmpty else {
+       print("couldn't find photo")
+          return
+      }
+      self.userProfilePic.kf.setImage(with: URL(string: photoURL), placeholder: UIImage(named: "placeholder"))
+    }
   }
   
   @IBAction func logInButtonPressed(_ sender: UIButton) {
@@ -96,9 +116,25 @@ extension LogInController: AuthServiceExistingAccountDelegate {
   func didRecieveErrorSigningToExistingAccount(_ authservice: AuthService, error: Error) {
     showAlert(title: "SignIn Error", message: error.localizedDescription)
   }
-  
 
-  
+}
 
+extension LogInController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    dismiss(animated: true)
+  }
+  
+  func imagePickerController(_ picker: UIImagePickerController,
+                             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+      print("original image not available")
+      return
+    }
+    let size = CGSize(width: 500, height: 500)
+    let resizedImage = Toucan.Resize.resizeImage(originalImage, size: size)
+    selectedImage = resizedImage
+    userProfilePic.image = resizedImage
+    dismiss(animated: true)
+  }
 }
 

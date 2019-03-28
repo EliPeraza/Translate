@@ -2,6 +2,9 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+Translate/SecretKeys.swift 
+.DS_Store
+
 ## Build generated
 build/
 DerivedData/
@@ -67,6 +70,5 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 
-Translate/SecretKeys.swift 
-.DS_Store
+
 
