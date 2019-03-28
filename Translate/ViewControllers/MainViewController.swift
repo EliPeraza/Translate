@@ -64,14 +64,19 @@ class MainViewController: UIViewController {
   
   @IBOutlet weak var textEnteredByUserToTranslate: UITextView!
   
+  @IBOutlet weak var textToSpeechButton: CornerButton!
   
   @IBOutlet weak var translatedTextLabel: UILabel!
+  
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
   }
 
+  @IBAction func textToSpeechButtonPressed(_ sender: UIButton) {
+  }
   
   @IBAction func selectBaseLanguageButtonPressed(_ sender: UIButton) {
     
@@ -187,3 +192,5 @@ extension Dictionary where Value : Equatable {
         return self.filter { $1 == val }.map { $0.0 }
     }
 }
+
+

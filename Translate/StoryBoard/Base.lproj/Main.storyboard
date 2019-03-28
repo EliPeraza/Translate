@@ -122,6 +122,9 @@
                                                 <state key="normal" title="Text -&gt; Speech">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="textToSpeechButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aP4-as-iFA"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -181,6 +184,7 @@
                         <outlet property="flagLanguageEntered" destination="PMx-GW-BfR" id="IoV-ER-N6m"/>
                         <outlet property="flagLanguageTranslatedTo" destination="wnw-Fh-DF9" id="SMc-0P-9Nm"/>
                         <outlet property="textEnteredByUserToTranslate" destination="opt-3E-Uf7" id="GZY-9A-4mP"/>
+                        <outlet property="textToSpeechButton" destination="F98-td-w9x" id="4tB-Vy-QyP"/>
                         <outlet property="translatedTextLabel" destination="xXy-ev-25r" id="b9Y-GV-J6b"/>
                         <outlet property="translationLanguageButton" destination="KCZ-5j-tSw" id="JJR-yr-7Kh"/>
                     </connections>
