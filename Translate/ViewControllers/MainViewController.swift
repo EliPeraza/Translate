@@ -18,6 +18,7 @@ enum languageForButton{
 class MainViewController: UIViewController {
     
     var autoDetectModeling: AutoDetect!
+    var authSession: AuthService!
     var transferedText: TranslateAPIModel!{
         didSet{
             DispatchQueue.main.async {
@@ -25,6 +26,7 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
     
     var caseOfButton = languageForButton.baseLanguage
     
@@ -67,15 +69,16 @@ class MainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+        
   }
 
   
   @IBAction func selectBaseLanguageButtonPressed(_ sender: UIButton) {
-    //maynot need
+    
   }
   
   @IBAction func selectLanguageToTranslateToButtonPressed(_ sender: UIButton) {
-    //maynot Need
+    
   }
   
   
@@ -91,9 +94,24 @@ class MainViewController: UIViewController {
                     self.transferedText = model
                 }
             }
+            if let user = authSession.getCurrentUser(){
+                let docRef = DBService.firestoreDB.collection(HistoryCollectionKeys.CollectionKey)
+                    .document()
+                let history = History(documentId: docRef.documentID, createdDate: Date.getISOTimestamp(), userId: user.uid, inputLanguageText: baseLanguage, inputText: textToTranslate, transLanguagetext: translateLanguage, transedText: transferedText.text.first!)
+                DBService.historyData(history: history) { (error) in
+                    if let error = error{
+                        self.showAlert(title: "Problem", message: error.localizedDescription)
+                    }else{
+                        print("saved")
+                    }
+                }
+            }
+            
         }else{
             self.showAlert(title: "Problem", message: "No text entered to translate")
         }
+    }else{
+        showAlert(title: "Problem", message: "enter some text, or select a language")
     }
     
   }
