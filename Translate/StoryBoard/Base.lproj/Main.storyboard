@@ -513,6 +513,8 @@
                         <outlet property="emailTextField" destination="4z4-za-4UZ" id="yS8-3w-nDu"/>
                         <outlet property="logInButton" destination="qYK-xm-8fX" id="JO3-BT-zuj"/>
                         <outlet property="passwordTextfield" destination="kB5-c5-CLF" id="IO2-6z-nW8"/>
+                        <outlet property="saveImageButton" destination="gQN-qc-fBT" id="eVx-tP-D30"/>
+                        <outlet property="signOutButton" destination="5AX-fB-afs" id="wnD-gz-nmr"/>
                         <outlet property="userProfileButtonPicture" destination="LzH-Xm-eQk" id="9Cp-dy-ZM0"/>
                         <outlet property="userStatus" destination="FkI-0B-Rsw" id="Pml-iy-jIK"/>
                     </connections>

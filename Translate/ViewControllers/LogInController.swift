@@ -28,7 +28,11 @@ class LogInController: UIViewController {
   @IBOutlet weak var logInButton: UIButton!
   
   @IBOutlet weak var userStatus: UIButton!
-
+  
+  @IBOutlet weak var saveImageButton: UIButton!
+  
+  @IBOutlet weak var signOutButton: CornerButton!
+  
   private var accountLoginState = AccountLoginState.newAccount
   
   private var authService = AppDelegate.authservice
