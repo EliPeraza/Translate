@@ -11,7 +11,10 @@ There is also an option to switch the languages selected to translation. They wi
 
 ![changeLanguage](https://user-images.githubusercontent.com/43765300/55183346-f8d89100-5165-11e9-9293-c27ad5d78239.gif)
 
+![Mar-28-2019 14-31-26](https://user-images.githubusercontent.com/43765300/55183448-36d5b500-5166-11e9-8b75-8dfb31e0d130.gif)
+
 ![userHistory](https://user-images.githubusercontent.com/43765300/55183350-faa25480-5165-11e9-9890-8bdf8bd0e68a.gif)
+
 ## Prerequisites
 * Xcode - 9.0+, set up on Swift Language
 * iOS 8.0+ / Mac OS X 10.11+ / tvOS 9.0+
