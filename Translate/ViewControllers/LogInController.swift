@@ -54,6 +54,15 @@ class LogInController: UIViewController {
     updateProfileUI()
   }
   
+  func disableButtonsIfLoggedIn() {
+    guard let user = authService.getCurrentUser() else {return}
+    if user.email == emailTextField.text {
+      emailTextField.isEnabled = false
+      passwordTextfield.isEnabled = false
+      logInButton.isEnabled = false
+      userStatus.isEnabled = false
+    }
+  }
   
   private func setUpTextFields() {
     emailTextField.delegate = self
@@ -105,6 +114,8 @@ class LogInController: UIViewController {
       authService.createNewAccount(email: email, password: passWord)
     case .existingAccount:
       authService.signInExistingAccount(email: email, password: passWord)
+      disableButtonsIfLoggedIn()
+
     }
   }
   
