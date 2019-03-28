@@ -24,10 +24,22 @@ class DetailedController: UIViewController {
   
   @IBOutlet weak var textTranslated: UITextView!
   
+    var historyDetail: History!
   
+    var inputText: String?
+    var transText: String?
+    var inputTitleLanguage: String?
+    var transTitleLanguage: String?
+    
   override func viewDidLoad() {
         super.viewDidLoad()
 
+    titleLanguageTranslatedTo.text = historyDetail.transLanguagetext
+    titleLanguageEntered.text = historyDetail.inputLanguageText
+    textEntered.text = historyDetail.inputText
+    textTranslated.text = historyDetail.transedText
+    
+    
     }
     
 
