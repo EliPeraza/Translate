@@ -38,7 +38,7 @@ class MainViewController: UIViewController {
   @IBOutlet weak var flagLanguageTranslatedTo: UIImageView!
   
     
-    var baseLanguage = "Spanish"{
+    var baseLanguage = "English"{
         didSet{
 //            flagLanguageEntered.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
             DispatchQueue.main.async {
@@ -47,7 +47,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    var translateLanguage = "English"{
+    var translateLanguage = "Spanish"{
         didSet{
 //        flagLanguageTranslatedTo.kf.setImage(with: URL(string: "needs to be from the fire base model"), placeholder: #imageLiteral(resourceName: "placeholder-image.png"))
             DispatchQueue.main.async{
@@ -92,20 +92,21 @@ class MainViewController: UIViewController {
                     self.showAlert(title: "error", message: error.errorMessage())
                 }else if let model = model{
                     self.transferedText = model
-                }
-            }
-            if let user = authSession.getCurrentUser(){
-                let docRef = DBService.firestoreDB.collection(HistoryCollectionKeys.CollectionKey)
-                    .document()
-                let history = History(documentId: docRef.documentID, createdDate: Date.getISOTimestamp(), userId: user.uid, inputLanguageText: baseLanguage, inputText: textToTranslate, transLanguagetext: translateLanguage, transedText: transferedText.text.first!)
-                DBService.historyData(history: history) { (error) in
-                    if let error = error{
-                        self.showAlert(title: "Problem", message: error.localizedDescription)
-                    }else{
-                        print("saved")
+                    if let user = self.authSession.getCurrentUser(){
+                        let docRef = DBService.firestoreDB.collection(HistoryCollectionKeys.CollectionKey)
+                            .document()
+                        let history = History(documentId: docRef.documentID, createdDate: Date.getISOTimestamp(), userId: user.uid, inputLanguageText: self.baseLanguage, inputText: textToTranslate, transLanguagetext: self.translateLanguage, transedText: self.transferedText.text.first!)
+                        DBService.historyData(history: history) { (error) in
+                            if let error = error{
+                                self.showAlert(title: "Problem", message: error.localizedDescription)
+                            }else{
+                                print("saved")
+                            }
+                        }
                     }
                 }
             }
+   
             
         }else{
             self.showAlert(title: "Problem", message: "No text entered to translate")
