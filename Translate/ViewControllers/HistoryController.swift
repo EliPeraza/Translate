@@ -43,8 +43,8 @@ class HistoryController: UIViewController {
         guard let user = authservice.getCurrentUser() else {
                 let alert = UIAlertController(title: "Warning", message: "You ONLY get access to Histories when you Login!", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
-                    let loginVC = LogInController()
-                    self.navigationController?.pushViewController(loginVC, animated: true)
+//                    let loginVC = LogInController()
+//                    self.navigationController?.pushViewController(loginVC, animated: true)
                 })
                 self.present(alert, animated: true, completion: {
                 })
@@ -100,6 +100,6 @@ extension HistoryController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        Constants.HistoryCellHeight
     }
 }
