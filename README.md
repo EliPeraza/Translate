@@ -15,11 +15,6 @@ There is also an option to switch the languages selected to translation. They wi
 
 ![userHistory](https://user-images.githubusercontent.com/43765300/55183350-faa25480-5165-11e9-9890-8bdf8bd0e68a.gif)
 
-## Prerequisites
-* Xcode - 9.0+, set up on Swift Language
-* iOS 8.0+ / Mac OS X 10.11+ / tvOS 9.0+
-* Swift 4.0+
-
 ## Built With
 * UIKit
 * Firebase
@@ -30,6 +25,13 @@ There is also an option to switch the languages selected to translation. They wi
 * Kingfisher
 * AVFoundation 
 
+## Prerequisites
+* Xcode - 9.0+, set up on Swift Language
+* iOS 8.0+ / Mac OS X 10.11+ / tvOS 9.0+
+* Swift 4.0+
 
-
-
+## Group Members
+* EliPeraza https://github.com/EliPeraza
+* vaslee https://github.com/vaslee
+* JabeenCheema https://github.com/JabeenCheema
+* JasonD4 https://github.com/JasonD4
