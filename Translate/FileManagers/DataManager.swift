@@ -9,8 +9,7 @@
 import Foundation
 
 struct DataManager {
-  
-  
+    
 }
 
 

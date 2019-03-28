@@ -52,7 +52,7 @@ final class AuthService {
                                email: authDataResult.user.email!,
                                photoURL: nil,
                                joinedDate: Date.getISOTimestamp())
-        DBService.createNDUser(user: user, completion: { (error) in
+        DBService.createdUser(user: user, completion: { (error) in
           if let error = error {
             self.authserviceCreateNewAccountDelegate?.didRecieveErrorCreatingAccount(self, error: error)
           } else {

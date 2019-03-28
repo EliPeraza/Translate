@@ -7,4 +7,8 @@
 //
 
 import Foundation
-//api
+
+struct AutoDetect {
+    let lang: String
+}
+
