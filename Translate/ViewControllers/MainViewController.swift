@@ -71,11 +71,11 @@ class MainViewController: UIViewController {
 
   
   @IBAction func selectBaseLanguageButtonPressed(_ sender: UIButton) {
-    //maynot need
+    
   }
   
   @IBAction func selectLanguageToTranslateToButtonPressed(_ sender: UIButton) {
-    //maynot Need
+    
   }
   
   
