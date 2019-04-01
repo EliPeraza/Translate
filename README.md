@@ -1,11 +1,11 @@
 # Translate App
 
-* Translate facilitates better understanding and communication among people.
-* Translate is a key tool to help us immerse in our travel adventures safely. 
-* Translate helps students who are speakers of other languages to keep up with their class content.
+* Translate facilitates better understanding and communication among people
+* Translate is a key tool to help us immerse in our travel adventures safely 
+* Translate helps students who are speakers of other languages to keep up with their class content
 
 ## App Overview
-The user will be able to enter text that will be translated to the language of their choice. They will be able to see a history of their queries, and they will be able to favorite a translated text, that they will be able to check regardless of internet access. 
+The user is able to enter text that will be translated to the language of their choice. They will be able to see a history of their queries, and favorite a translated text, that they will be able to check regardless of internet access. 
 
 
 ![Apr-01-2019 10-33-41](https://user-images.githubusercontent.com/43765300/55335750-b1a21700-5469-11e9-9546-b0441b6109f9.gif)
