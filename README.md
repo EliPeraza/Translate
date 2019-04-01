@@ -10,7 +10,7 @@ The user will be able to enter text that will be translated to the language of t
 
 ![Apr-01-2019 10-33-41](https://user-images.githubusercontent.com/43765300/55335750-b1a21700-5469-11e9-9546-b0441b6109f9.gif)
 
-![changeLanguage](https://user-images.githubusercontent.com/43765300/55183346-f8d89100-5165-11e9-9293-c27ad5d78239.gif)
+![Apr-01-2019 10-36-11](https://user-images.githubusercontent.com/43765300/55335919-06de2880-546a-11e9-8e32-bf69503bfa5f.gif)
 
 ![Mar-28-2019 14-31-26](https://user-images.githubusercontent.com/43765300/55183448-36d5b500-5166-11e9-8b75-8dfb31e0d130.gif)
 
