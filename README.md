@@ -46,7 +46,7 @@ The user will be able to enter text that will be translated to the language of t
 * Swift 4.0+
 
 ## Group Members
-* EliPeraza https://github.com/EliPeraza
-* vaslee https://github.com/vaslee
-* JabeenCheema https://github.com/JabeenCheema
-* JasonD4 https://github.com/JasonD4
+* Eli Peraza https://github.com/EliPeraza
+* Li https://github.com/vaslee
+* Jabeen Cheema https://github.com/JabeenCheema
+* Jason D. https://github.com/JasonD4
