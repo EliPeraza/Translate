@@ -8,7 +8,7 @@
 The user will be able to enter text that will be translated to the language of their choice. They will be able to see a history of their queries, and they will be able to favorite a translated text, that they will be able to check regardless of internet access. 
 
 
-![mianVC](https://user-images.githubusercontent.com/43765300/55183340-f6763700-5165-11e9-89b8-4a3bd781e6af.gif)
+![Apr-01-2019 10-33-41](https://user-images.githubusercontent.com/43765300/55335750-b1a21700-5469-11e9-9546-b0441b6109f9.gif)
 
 ![changeLanguage](https://user-images.githubusercontent.com/43765300/55183346-f8d89100-5165-11e9-9293-c27ad5d78239.gif)
 
