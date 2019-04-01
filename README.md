@@ -46,7 +46,7 @@ The user is able to enter text that will be translated to the language of their 
 * Swift 4.0+
 
 ## Group Members
-* Eli Peraza https://github.com/EliPeraza
-* Li https://github.com/vaslee
-* Jabeen Cheema https://github.com/JabeenCheema
-* Jason D. https://github.com/JasonD4
+* [Eli Peraza] (https://github.com/EliPeraza)
+* [Tingxin Li] (https://github.com/vaslee)
+* [Jabeen Cheema] (https://github.com/JabeenCheema)
+* [Jason D.] (https://github.com/JasonD4)
